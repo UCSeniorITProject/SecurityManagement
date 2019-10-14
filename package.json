@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/SafeMedsSeniorDesign/SecurityManagement/issues"
   },
-  "homepage": "https://github.com/SafeMedsSeniorDesign/SecurityManagement#readme"
+  "homepage": "https://github.com/SafeMedsSeniorDesign/SecurityManagement#readme",
+  "dependencies": {
+    "fastify": "^2.10.0",
+    "fastify-swagger": "^2.4.0",
+    "sequelize": "^5.19.6"
+  }
 }
