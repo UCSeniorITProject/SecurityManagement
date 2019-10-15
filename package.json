@@ -19,6 +19,7 @@
   "dependencies": {
     "fastify": "^2.10.0",
     "fastify-swagger": "^2.4.0",
+    "mysql2": "^1.7.0",
     "sequelize": "^5.19.6"
   }
 }
