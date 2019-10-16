@@ -13,10 +13,4 @@ const sequelize = new Sequelize(config.db.databaseName, config.db.username, conf
 	}
 });
 
-sequelize.authenticate().then(async () => {
-	console.log("Success!");
-}).catch((err) => {
-  console.log(err);
-});
-
 module.exports = sequelize;
