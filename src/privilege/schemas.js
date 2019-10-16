@@ -6,7 +6,8 @@ const privilegeBeforeSave = {
     description: 'The name of the privilege',
   },
   active: {
-    type: 'boolean',
+    type: 'string',
+    enum: ['Y', 'N'],
     description: 'Whether or not the privilege is active',
   }
 };
@@ -27,15 +28,20 @@ const privilegeAfterSave = {
   }
 };
 
+
 exports.createPrivilege = {
   description: 'Create a new privilege',
   tags: ['Privilege'],
   summary: 'Creates a new privilege with the given request body',
   body: {
-    privilege: {
-      type: 'object',
-      properties: privilegeBeforeSave,
-      description: 'The privilege to create',
+    type: 'object',
+    properties:{
+      privilege: {
+        required: Object.keys(privilegeBeforeSave),
+        type: 'object',
+        properties: privilegeBeforeSave,
+        description: 'The privilege to create',
+      }
     }
   },
   exposeRoute: true,
@@ -44,7 +50,11 @@ exports.createPrivilege = {
       description: 'Successfully created the privilege',
       type: 'object',
       properties: {
-        privilege: privilegeAfterSave,
+        privilege: {
+          type: 'object',
+          properties: privilegeAfterSave,
+          description: 'The privilege that was created',
+        }
       }
     },
     ...genericForbiddenError,

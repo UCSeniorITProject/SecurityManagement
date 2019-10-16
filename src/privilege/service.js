@@ -7,8 +7,8 @@ exports.createPrivilege = async (req, resp) => {
     const privilege = Privilege.build(req.body.privilege);
     
     const savedPrivilege = await privilege.save();
-
-    return {savedPrivilege};
+    console.log(savedPrivilege.dataValues)
+    return {privilege: savedPrivilege.dataValues};
   } catch(err) {
     throw boomify(err);
   }
