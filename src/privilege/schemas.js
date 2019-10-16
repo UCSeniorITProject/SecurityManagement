@@ -101,3 +101,7 @@ exports.updatePrivilege = {
     ...genericForbiddenError,
   },
 }
+
+exports.getList = {
+
+};

@@ -38,7 +38,9 @@ exports.updatePrivilege = async (req, resp) => {
 
 exports.getList = async (req, resp) => {
   try { 
+    const privileges = await Privilege.findAll();
 
+    return {privileges: privileges.dataValues};
   } catch (err) {
     throw boomify(err);
   }
