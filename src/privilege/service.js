@@ -7,9 +7,39 @@ exports.createPrivilege = async (req, resp) => {
     const privilege = Privilege.build(req.body.privilege);
     
     const savedPrivilege = await privilege.save();
-    console.log(savedPrivilege.dataValues)
     return {privilege: savedPrivilege.dataValues};
   } catch(err) {
+    throw boomify(err);
+  }
+};
+
+exports.updatePrivilege = async (req, resp) => {
+  try {
+    const privilege = await Privilege.update(
+        req.body.privilege,
+        { 
+          where: {
+            id: req.params.id
+          },
+        },
+      );
+
+    const updatedPrivilege = await Privilege.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    return {privilege: updatedPrivilege.dataValues};
+  } catch (err) {
+    throw boomify(err);
+  }
+};
+
+exports.getList = async (req, resp) => {
+  try { 
+
+  } catch (err) {
     throw boomify(err);
   }
 };

@@ -60,3 +60,44 @@ exports.createPrivilege = {
     ...genericForbiddenError,
   }
 };
+
+exports.updatePrivilege = {
+  description: 'Updates the given privilege',
+  tags: ['Privilege'],
+  summary: 'Updates the privilege with the given privilege ID and body',
+  body: {
+    type: 'object',
+    properties: {
+      privilege: {
+        type: 'object',
+        properties: privilegeBeforeSave,
+        description: 'The fields you want to update on the privilege'
+      },
+    },
+  },
+  params: {
+    type: 'object',
+    required: ['id'],
+    properties: {
+      id: {
+        type: 'number',
+        description: 'The ID of the privilege to update',
+      }
+    },
+  },
+  exposeRoute: true,
+  response: {
+    200: {
+      description: 'Successfully updated the privilege',
+      type: 'object',
+      properties: {
+        privilege: {
+          type: 'object',
+          properties: privilegeAfterSave,
+          description: 'The privilege that was updated',
+        },
+      },
+    },
+    ...genericForbiddenError,
+  },
+}
