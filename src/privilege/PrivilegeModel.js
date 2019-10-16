@@ -1,14 +1,15 @@
+const SequelizeInstance = require('../dbConnection');
 const Sequelize = require('sequelize');
 const privilegeSeedData = require('./privilegeSeedData');
 const config = require('../../config');
 
-const Privilege = Sequelize.define({
+const Privilege = SequelizeInstance.define('Privilege', {
 		privilegeName: {
-			type: Sequelize.STRING,
+			type: Sequelize.DataTypes.STRING,
 			allowNull: false,
 		},
 		active: {
-			type: Sequelize.STRING,
+			type: Sequelize.DataTypes.STRING,
 			allowNull: false,
 		},
  },
@@ -16,11 +17,15 @@ const Privilege = Sequelize.define({
 
 
 Privilege.sync({force: config.db.forceTableCreation}).then(() => {
-	privilegeSeedData.forEach((ele, index) => {
-		this[index].createdAt = new Date();
-		this[index].updatedAt = new Date();
-	});
-	return Privilege.bulkCreate(privilegeSeedData);
+	try {
+		privilegeSeedData.forEach((ele, index) => {
+			privilegeSeedData[index].createdAt = new Date();
+			privilegeSeedData[index].updatedAt = new Date();
+		});
+		return Privilege.bulkCreate(privilegeSeedData);
+	} catch (err){
+		console.log(err);
+	}
 });
 
 module.exports = Privilege;
