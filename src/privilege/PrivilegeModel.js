@@ -2,6 +2,7 @@ const SequelizeInstance = require('../dbConnection');
 const Sequelize = require('sequelize');
 const privilegeSeedData = require('./privilegeSeedData');
 const config = require('../../config');
+const activeEnum = require('../constants/activeEnum');
 
 const Privilege = SequelizeInstance.define('Privilege', {
 		privilegeName: {
@@ -9,10 +10,23 @@ const Privilege = SequelizeInstance.define('Privilege', {
 			allowNull: false,
 		},
 		active: {
-			type: Sequelize.DataTypes.STRING,
+			type: Sequelize.DataTypes.ENUM,
+			values: activeEnum,
 			allowNull: false,
 		},
  },
+ {
+		hooks: {
+			beforeUpdate: async (privilege, options, cb) => {
+				privilege.updatedAt = new Date();
+				return privilege;
+			},
+			beforeCreate: async (privilege, options, cb) => {
+				privilege.createdAt = new Date();
+				return privilege;
+			},
+		}
+ }
 );
 
 

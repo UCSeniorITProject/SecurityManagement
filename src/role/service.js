@@ -14,12 +14,8 @@ exports.createRole = async (req, reply) => {
 
 exports.updateRole = async(req, reply) => {
   try {
-    const updatedRoleBody = {
-      ...req.body.role,
-      updatedAt: new Date(),
-    }
     const updatedRoleCount  = await Role.update(
-      updatedRoleBody,
+      req.body.role,
       {
         where: {
           id: req.params.id,

@@ -1,5 +1,5 @@
 const genericForbiddenError = require('../constants/genericForbiddenResponse');
-
+const activeEnum = require('../constants/activeEnum');
 
 const roleBeforeSave = {
   roleName: {
@@ -8,7 +8,7 @@ const roleBeforeSave = {
   },
   active: {
     type: 'string',
-    enum: ['Y', 'N'],
+    enum: activeEnum,
   },
 };
 

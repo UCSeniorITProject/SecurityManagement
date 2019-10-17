@@ -1,4 +1,5 @@
 const genericForbiddenError = require('../constants/genericForbiddenResponse');
+const activeEnum = require('../constants/activeEnum');
 
 const privilegeBeforeSave = {
   privilegeName: {
@@ -7,7 +8,7 @@ const privilegeBeforeSave = {
   },
   active: {
     type: 'string',
-    enum: ['Y', 'N'],
+    enum: activeEnum,
     description: 'Whether or not the privilege is active',
   }
 };

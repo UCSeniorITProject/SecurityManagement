@@ -15,12 +15,8 @@ exports.createPrivilege = async (req, resp) => {
 
 exports.updatePrivilege = async (req, resp) => {
   try {
-    const updatedPrivilegeBody = {
-      ...req.body.privilege,
-      updatedAt: new Date(),
-    }
     const updatedPrivilegeCount = await Privilege.update(
-      updatedPrivilegeBody,
+      req.body.privilege,
         { 
           where: {
             id: req.params.id

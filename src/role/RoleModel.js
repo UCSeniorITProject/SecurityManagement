@@ -2,17 +2,32 @@ const SequelizeInstance = require('../dbConnection');
 const Sequelize = require('sequelize');
 const roleSeedData = require('./roleSeedData');
 const config = require('../../config');
+const activeEnum = require('../constants/activeEnum');
 
 const Role = SequelizeInstance.define('Role', {
-  roleName: {
-    type: Sequelize.DataTypes.STRING,
-    allowNull: false,
+    roleName: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
+    },
+    active: {
+      type: Sequelize.DataTypes.ENUM,
+      values: activeEnum,
+      allowNull: false,
+    },
   },
-  active: {
-    type: Sequelize.DataTypes.STRING,
-    allowNull: false,
+  {
+    hooks: {
+      beforeUpdate: async (role, options, cb) => {
+        role.updatedAt = new Date();
+        return role;
+      },
+      beforeCreate: async (role, options, cb) => {
+        role.createdAt = new Date();
+        return role;
+      },
+    },
   },
-});
+);
 
 Role.sync({force: config.db.forceTableCreation}).then(() => {
   try {
