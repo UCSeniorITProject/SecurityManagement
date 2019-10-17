@@ -33,10 +33,16 @@ const User = SequelizeInstance.define('User', {
       },
     },
     hooks: {
-      beforeCreate: handlePasswordUpsert,
-      beforeUpdate: async(user) => {
+      beforeCreate: async (user) => {
+        const salt = await genSaltAsync(config.saltRounds);
+        user.password = await hashAsync(salt, user.password);
+        user.createdAt = new Date();
+        user.updatedAt = new Date();
+      },
+      beforeUpdate: async (user) => {
         if(user.changed().includes('password')){
-          handlePasswordUpsert(user);
+          const salt = await genSaltAsync(config.saltRounds);
+          user.password = await hashAsync(salt, user.password);
         }
         user.updatedAt = new Date();
       },
@@ -55,14 +61,5 @@ User.sync({force: config.db.forceTableCreation}).then(() => {
     console.log(`An error occured during User data seeding: ${error}`);
   }
 });
-
-async function handlePasswordUpsert(user){
-  try{
-    const salt = await genSaltAsync(config.saltRounds);
-    user.password = await hashAsync(salt, user.password);
-  } catch (err){
-    console.log(`An error occured during password hashing: ${error}`);
-  }
-}
 
 module.exports = User;
