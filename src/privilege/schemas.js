@@ -103,5 +103,59 @@ exports.updatePrivilege = {
 }
 
 exports.getList = {
+  description: 'Gets the list of all privileges',
+  tags: ['Privilege'],
+  summary: 'Retrieves the list of all privileges ',
+  exposeRoute: true,
+  response: {
+    200: {
+      description: 'Succesfully got list of privileges',
+      type: 'object',
+      properties: {
+        privileges: {
+          description: 'The list of all of the privileges',
+          type: 'array',
+          items: {
+            properties: privilegeAfterSave,
+          }
+        }
+      },
+    },
+    ...genericForbiddenError,
+  },
+};
 
+exports.deletePrivilege = {
+  description: 'Deletes the given privilege',
+  tags: ['Privilege'],
+  summary: 'Deletes the given privilege',
+  exposeRoute: true,
+  params: {
+    type: 'object',
+    required: ['id'],
+    properties: {
+      id: {
+        type: 'string',
+        description: 'The ID of the privilege to delete',
+      }
+    },
+  },
+  response: {
+    204: {
+      description: 'The privilege was successfully deleted',
+      type: 'null',
+    },
+    404: {
+      description: 'The privilege was not found',
+      type: 'object',
+      properties: {
+        msg: {
+          type: 'string',
+          description: 'The message returned by the API',
+          default: 'The privilege was not found',
+        }
+      }
+    },
+    ...genericForbiddenError,
+  }
 };

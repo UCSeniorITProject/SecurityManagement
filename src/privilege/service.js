@@ -40,7 +40,31 @@ exports.getList = async (req, resp) => {
   try { 
     const privileges = await Privilege.findAll();
 
-    return {privileges: privileges.dataValues};
+    return {privileges: privileges.map(e => e.dataValues)};
+  } catch (err) {
+    throw boomify(err);
+  }
+};
+
+exports.deletePrivilege = async(req, resp) => {
+  try {
+    const privilegeDeletedCount = await Privilege.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if(privilegeDeletedCount === 0){
+      return resp
+                .code(404)
+                .send({
+                  msg: 'Privilege could not be found',
+                });
+    }
+
+    return resp
+            .code(204)
+            .send();
   } catch (err) {
     throw boomify(err);
   }
