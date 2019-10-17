@@ -10,5 +10,6 @@ module.exports = {
     port: 1433,
     //DO NOT TURN THIS TO TRUE YOU WILL DROP EVERY TABLE
     forceTableCreation: false,
-  }
+  },
+  saltRounds: 8,
 };

@@ -17,11 +17,11 @@ const Role = SequelizeInstance.define('Role', {
   },
   {
     hooks: {
-      beforeUpdate: async (role, options, cb) => {
+      beforeUpdate: async (role) => {
         role.updatedAt = new Date();
         return role;
       },
-      beforeCreate: async (role, options, cb) => {
+      beforeCreate: async (role) => {
         role.createdAt = new Date();
         return role;
       },

@@ -17,11 +17,11 @@ const Privilege = SequelizeInstance.define('Privilege', {
  },
  {
 		hooks: {
-			beforeUpdate: async (privilege, options, cb) => {
+			beforeUpdate: async (privilege) => {
 				privilege.updatedAt = new Date();
 				return privilege;
 			},
-			beforeCreate: async (privilege, options, cb) => {
+			beforeCreate: async (privilege) => {
 				privilege.createdAt = new Date();
 				return privilege;
 			},
