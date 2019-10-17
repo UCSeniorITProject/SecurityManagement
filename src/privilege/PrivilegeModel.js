@@ -24,7 +24,7 @@ Privilege.sync({force: config.db.forceTableCreation}).then(() => {
 		});
 		return Privilege.bulkCreate(privilegeSeedData);
 	} catch (err){
-		console.log(err);
+		console.log(`Error creating privilege seed data: ${err}`);
 	}
 });
 

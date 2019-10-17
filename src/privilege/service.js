@@ -15,14 +15,24 @@ exports.createPrivilege = async (req, resp) => {
 
 exports.updatePrivilege = async (req, resp) => {
   try {
-    const privilege = await Privilege.update(
-        req.body.privilege,
+    const updatedPrivilegeBody = {
+      ...req.body.privilege,
+      updatedAt: new Date(),
+    }
+    const updatedPrivilegeCount = await Privilege.update(
+      updatedPrivilegeBody,
         { 
           where: {
             id: req.params.id
           },
         },
       );
+
+    if(updatedPrivilegeCount === 0){
+      return resp
+                .code(404)
+                .send();
+    }
 
     const updatedPrivilege = await Privilege.findOne({
       where: {

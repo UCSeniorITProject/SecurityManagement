@@ -24,7 +24,7 @@ const privilegeAfterSave = {
   },
   updatedAt: {
     type: 'string',
-    description: 'THe date that the privilege was updated on, defaults to date created',
+    description: 'The date that the privilege was updated on, defaults to date created',
   }
 };
 
@@ -98,6 +98,17 @@ exports.updatePrivilege = {
         },
       },
     },
+    404: {
+      description: 'The privilege was not found',
+      type: 'object',
+      properties: {
+        msg: {
+          type: 'string',
+          description: 'The message returned by the API',
+          default: 'The privilege was not found',
+        }
+      }
+    },
     ...genericForbiddenError,
   },
 }
@@ -109,7 +120,7 @@ exports.getList = {
   exposeRoute: true,
   response: {
     200: {
-      description: 'Succesfully got list of privileges',
+      description: 'Succesfully got a list of privileges',
       type: 'object',
       properties: {
         privileges: {

@@ -12,6 +12,7 @@ const start = async () => {
 		fastify.decorateRequest("sqlConnection", sqlConnection);
     fastify.register(require('fastify-swagger'), swagger.options);
     fastify.register(require('./privilege'), {prefix: '/api/privilege'});
+    fastify.register(require('./role'), {prefix: '/api/role'});
     await fastify.listen(3000);
     fastify.swagger();
     fastify.log.info(`Server is listening on ${fastify.server.address().port}`);
