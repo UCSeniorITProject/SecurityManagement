@@ -19,7 +19,7 @@ exports.updatePrivilege = async (req, resp) => {
       req.body.privilege,
         { 
           where: {
-            id: req.params.id
+            id: req.params.id,
           },
         },
       );
@@ -32,8 +32,8 @@ exports.updatePrivilege = async (req, resp) => {
 
     const updatedPrivilege = await Privilege.findOne({
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     });
 
     return {privilege: updatedPrivilege.dataValues};

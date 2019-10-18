@@ -12,4 +12,5 @@ module.exports = {
     forceTableCreation: false,
   },
   saltRounds: 8,
+  jwtSecret: 'qweqweqweqweqwe',
 };
