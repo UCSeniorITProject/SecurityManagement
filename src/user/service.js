@@ -22,6 +22,7 @@ exports.updateUser = async (req, reply) => {
         where: {
           id: req.params.id,
         },
+        individualHooks: true,
       },
     );
 

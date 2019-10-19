@@ -45,9 +45,9 @@ const User = SequelizeInstance.define('User', {
         return user;
       },
       beforeUpdate: async (user) => {
-        if(user.changed().includes('password')){
-          const salt = await genSaltAsync(config.saltRounds);
-          user.password = await hashAsync(salt, user.password);
+        console.log(user)
+        if(user.changed('password')){
+          user.password = await hashAsync(config.saltRounds, user.password);
         }
         user.updatedAt = new Date();
         return user;
