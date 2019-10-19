@@ -3,7 +3,8 @@ const Sequelize = require('sequelize');
 const config = require('../../config');
 const activeEnum = require('../constants/activeEnum');
 const userSeedData = require('./userSeedData');
-const {genSaltAsync, hashAsync} = require('../helpers/bcrypt');
+const {hashAsync} = require('../helpers/bcrypt');
+const bcrypt = require('bcrypt');
 
 const User = SequelizeInstance.define('User', {
     username: {
@@ -32,11 +33,6 @@ const User = SequelizeInstance.define('User', {
     },
   },
   {
-    instanceMethods: {
-      isValidPassword(password){
-        return bcrypt.compare(password, this.password);
-      },
-    },
     hooks: {
       beforeCreate: async (user) => {
         user.password = await hashAsync(config.saltRounds, user.password);
@@ -55,6 +51,10 @@ const User = SequelizeInstance.define('User', {
     },
   },
 );
+
+User.prototype.isValidPassword = function(password){
+  return bcrypt.compare(password, this.password);
+}
 
 User.sync({force: config.db.forceTableCreation}).then(() => {
   try {

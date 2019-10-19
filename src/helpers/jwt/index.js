@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 exports.signAsync = (payload, secret, expiration) => {
   return new Promise((resolve, reject)=> {
-    resolve(jwt.sign(
+    jwt.sign(
       payload,
       secret,
       expiration,
@@ -10,7 +10,7 @@ exports.signAsync = (payload, secret, expiration) => {
         if(err) reject(err);
         resolve(token);
       }
-    ));
+    );
   });
 }
 

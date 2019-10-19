@@ -48,7 +48,7 @@ exports.login = async (req, reply) => {
   try {
     const user = await User.findAll({
       where: {
-        username: req.body.user.username,
+        username: req.body.authDetails.username,
       }
     });
 
@@ -58,7 +58,7 @@ exports.login = async (req, reply) => {
               .send();
     }
 
-    const passwordIsValid = user[0].isValidPassword(req.body.user.password);
+    const passwordIsValid = user[0].isValidPassword(req.body.authDetails.password);
 
     if(passwordIsValid){
       const token = await jwt.signAsync(
@@ -84,11 +84,11 @@ exports.login = async (req, reply) => {
 
 exports.getWithFilter = async (req, reply) => {
   try {
-    const user = await User.findAll({
+    const users = await User.findAll({
       where: req.query,
     });
 
-    return {user: user.dataValues};
+    return {users: users.map(e => e.dataValues)};
   } catch (err) {
     throw boomify(err);
   }
