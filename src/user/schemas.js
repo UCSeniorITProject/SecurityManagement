@@ -19,7 +19,7 @@ const userBeforeSave = {
     description: 'The phone number of the user',
   },
   active: {
-    type: 'enum',
+    type: 'string',
     enum: activeEnum,
   },
 };
@@ -74,8 +74,8 @@ exports.updateUser = {
   summary: 'Updates the given user with the given request body',
   params: {
     type: 'object',
+    required: ['id'],
     properties: {
-      required: ['id'],
       id: {
         type: 'string',
         description: 'The ID of the user to update',
@@ -166,7 +166,7 @@ exports.getWithFilter = {
   description: 'Gets all users matching the provided filter',
   tags: ['User'],
   summary: 'Retrieves all users matching the given filter',
-  body: {
+  query: {
     type: 'object',
     description: 'The filter to retrieve users with',
     properties: userBeforeSave,

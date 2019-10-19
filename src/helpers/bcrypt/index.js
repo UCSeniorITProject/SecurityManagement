@@ -15,11 +15,10 @@ exports.genSaltAsync = (saltRounds) => {
 
 exports.hashAsync = (salt, password) => {
   return new Promise((resolve, reject) => {
-    bcrypt.hash(password, salt, null, (err, hash) => {
+    bcrypt.hash(password, salt, function(err, hash){
       if(err){
         reject(err);
       }
-
       resolve(hash);
     });
   });

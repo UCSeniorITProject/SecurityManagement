@@ -39,10 +39,10 @@ const User = SequelizeInstance.define('User', {
     },
     hooks: {
       beforeCreate: async (user) => {
-        const salt = await genSaltAsync(config.saltRounds);
-        user.password = await hashAsync(salt, user.password);
+        user.password = await hashAsync(config.saltRounds, user.password);
         user.createdAt = new Date();
         user.updatedAt = new Date();
+        return user;
       },
       beforeUpdate: async (user) => {
         if(user.changed().includes('password')){
@@ -50,6 +50,7 @@ const User = SequelizeInstance.define('User', {
           user.password = await hashAsync(salt, user.password);
         }
         user.updatedAt = new Date();
+        return user;
       },
     },
   },
@@ -57,7 +58,7 @@ const User = SequelizeInstance.define('User', {
 
 User.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    userSeedData.foreach((ele, index) => {
+    userSeedData.forEach((ele, index) => {
       userSeedData[index].createdAt = new Date();
       userSeedData[index].updatedAt = new Date();
     });
@@ -66,5 +67,6 @@ User.sync({force: config.db.forceTableCreation}).then(() => {
     console.log(`An error occured during User data seeding: ${error}`);
   }
 });
+
 
 module.exports = User;
