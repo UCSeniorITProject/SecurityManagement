@@ -96,7 +96,7 @@ exports.getWithFilter = async (req, reply) => {
 exports.verifyToken = async (req, reply) => {
   try {
     //will throw error if bad token
-    await jwt.verifyAsync(token, config.jwtSecret);
+    await jwt.verifyAsync(req.body.token, config.jwtSecret);
     return {valid : true};
   } catch (err) {
     return {valid: false};

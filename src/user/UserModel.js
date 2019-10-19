@@ -25,6 +25,11 @@ const User = SequelizeInstance.define('User', {
       allowNull: false,
       unique: true,
     },
+    active: {
+      type: Sequelize.DataTypes.ENUM,
+      values: activeEnum,
+      allowNull: false,
+    },
   },
   {
     instanceMethods: {
@@ -56,7 +61,7 @@ User.sync({force: config.db.forceTableCreation}).then(() => {
       userSeedData[index].createdAt = new Date();
       userSeedData[index].updatedAt = new Date();
     });
-    return User.bulkCreate(userSeedData);
+    return User.bulkCreate(userSeedData, {individualHooks: true,});
   } catch (err) {
     console.log(`An error occured during User data seeding: ${error}`);
   }

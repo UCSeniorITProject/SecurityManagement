@@ -35,7 +35,7 @@ Role.sync({force: config.db.forceTableCreation}).then(() => {
       roleSeedData[index].createdAt = new Date();
       roleSeedData[index].updatedAt = new Date();
     });
-    return Role.bulkCreate(roleSeedData);
+    return Role.bulkCreate(roleSeedData, {individualHooks: true});
   } catch (err){
     console.log(`Error creating role seed data ${err}`);
   }

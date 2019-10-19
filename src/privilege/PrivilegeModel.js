@@ -36,7 +36,7 @@ Privilege.sync({force: config.db.forceTableCreation}).then(() => {
 			privilegeSeedData[index].createdAt = new Date();
 			privilegeSeedData[index].updatedAt = new Date();
 		});
-		return Privilege.bulkCreate(privilegeSeedData);
+		return Privilege.bulkCreate(privilegeSeedData, {invidualHooks: true,});
 	} catch (err){
 		console.log(`Error creating privilege seed data: ${err}`);
 	}
