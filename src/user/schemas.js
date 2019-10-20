@@ -21,6 +21,7 @@ const userBeforeSave = {
   active: {
     type: 'string',
     enum: activeEnum,
+    description: 'Whether or not the row is active',
   },
 };
 
@@ -33,6 +34,10 @@ const userAfterSave = {
   updatedAt: {
     type: 'string',
     description: 'The date the record was updated',
+  },
+  id: {
+    type: 'number',
+    description: 'The identity of the user',
   }
 };
 
