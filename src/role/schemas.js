@@ -9,6 +9,7 @@ const roleBeforeSave = {
   active: {
     type: 'string',
     enum: activeEnum,
+    description: 'Whether or not the row is active',
   },
 };
 

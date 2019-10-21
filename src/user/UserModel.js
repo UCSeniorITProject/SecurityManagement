@@ -41,7 +41,6 @@ const User = SequelizeInstance.define('User', {
         return user;
       },
       beforeUpdate: async (user) => {
-        console.log(user)
         if(user.changed('password')){
           user.password = await hashAsync(config.saltRounds, user.password);
         }
@@ -68,5 +67,13 @@ User.sync({force: config.db.forceTableCreation}).then(() => {
   }
 });
 
+User.associate = function(models){
+  User.belongsToMany(models.Role, {
+    through: 'UserRoles',
+    as: 'roles',
+    foreignKey: 'userID',
+    otherKey: 'roleID',
+  });
+};
 
 module.exports = User;

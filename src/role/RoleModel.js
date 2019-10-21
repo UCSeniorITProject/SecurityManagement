@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const roleSeedData = require('./roleSeedData');
 const config = require('../../config');
 const activeEnum = require('../constants/activeEnum');
+const User = require('../user/UserModel');
 
 const Role = SequelizeInstance.define('Role', {
     roleName: {
@@ -40,5 +41,14 @@ Role.sync({force: config.db.forceTableCreation}).then(() => {
     console.log(`Error creating role seed data ${err}`);
   }
 });
+
+Role.associate = function(model){
+  Role.belongsToMany(models.User, {
+    through: 'UserRoles',
+    as: 'users',
+    foreignKey: 'roleID',
+    otherKey: 'userID',
+  });
+};
 
 module.exports = Role;

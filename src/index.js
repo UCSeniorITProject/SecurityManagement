@@ -14,6 +14,7 @@ const start = async () => {
     fastify.register(require('./user'), {prefix: '/api/user'});
     fastify.register(require('./privilege'), {prefix: '/api/privilege'});
     fastify.register(require('./role'), {prefix: '/api/role'});
+    fastify.register(require('./userrole'), {prefix: '/api/user-role'})
     await fastify.listen(3000);
     fastify.swagger();
     fastify.log.info(`Server is listening on ${fastify.server.address().port}`);
