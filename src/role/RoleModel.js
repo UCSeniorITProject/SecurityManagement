@@ -26,13 +26,15 @@ Role.sync({force: config.db.forceTableCreation}).then(() => {
   }
 });
 
-Role.associate = function(model){
+Role.associate = function(models){
   Role.belongsToMany(models.User, {
-    through: 'UserRoles',
-    as: 'users',
-    foreignKey: 'roleID',
-    otherKey: 'userID',
+    through: models.UserRole,
+  });
+
+  Role.belongsToMany(models.Privilege, {
+    through: models.RolePrivilege,
   });
 };
+
 
 module.exports = Role;

@@ -62,10 +62,7 @@ User.sync({force: config.db.forceTableCreation}).then(() => {
 
 User.associate = function(models){
   User.belongsToMany(models.Role, {
-    through: 'UserRoles',
-    as: 'roles',
-    foreignKey: 'userID',
-    otherKey: 'roleID',
+    through: models.UserRole,
   });
 };
 
