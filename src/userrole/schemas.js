@@ -39,9 +39,14 @@ exports.createUserRole = {
   summary: 'Assigns the given role to the user',
   body: {
     type: 'object',
-    required: Object.keys(userRoleBeforeSave),
-    properties: userRoleBeforeSave,
-    description: 'The user role to create',
+    properties: {
+      userRole: {
+        type: 'object',
+        description: 'The user role to create',
+        required: Object.keys(userRoleBeforeSave),
+        properties:userRoleBeforeSave
+      }
+    },
   },
   exposeRoute: true,
   response: {
