@@ -9,7 +9,23 @@ const UserRole = SequelizeInstance.define('UserRole', {
     type: Sequelize.DataTypes.ENUM,
     values: activeEnum,
     allowNull: false,
-  }
+  },
+  userID: {
+    type: Sequelize.DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id'
+    }
+  },
+  roleID: {
+    type: Sequelize.DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Roles',
+      key: 'id'
+    }
+  },
 }, {
   hooks: {
     beforeCreate: async (userRole) => {
