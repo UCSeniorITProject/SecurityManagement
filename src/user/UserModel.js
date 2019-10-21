@@ -36,15 +36,12 @@ const User = SequelizeInstance.define('User', {
     hooks: {
       beforeCreate: async (user) => {
         user.password = await hashAsync(config.saltRounds, user.password);
-        user.createdAt = new Date();
-        user.updatedAt = new Date();
         return user;
       },
       beforeUpdate: async (user) => {
         if(user.changed('password')){
           user.password = await hashAsync(config.saltRounds, user.password);
         }
-        user.updatedAt = new Date();
         return user;
       },
     },

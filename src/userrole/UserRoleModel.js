@@ -26,19 +26,7 @@ const UserRole = SequelizeInstance.define('UserRole', {
       key: 'id'
     }
   },
-}, {
-  hooks: {
-    beforeCreate: async (userRole) => {
-      userRole.createdAt = new Date();
-      userRole.updatedAt = new Date();
-      return userRole;
-    },
-    beforeUpdate: async (userRole) => {
-      userRole.updatedAt = new Date();
-      return userRole;
-    },
-  }
-});
+},);
 
 UserRole.sync({force: config.db.forceTableCreation}).then(() => {
   try {
