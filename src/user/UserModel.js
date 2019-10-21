@@ -54,10 +54,6 @@ User.prototype.isValidPassword = function(password){
 
 User.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    userSeedData.forEach((ele, index) => {
-      userSeedData[index].createdAt = new Date();
-      userSeedData[index].updatedAt = new Date();
-    });
     return User.bulkCreate(userSeedData, {individualHooks: true,});
   } catch (err) {
     console.log(`An error occured during User data seeding: ${error}`);

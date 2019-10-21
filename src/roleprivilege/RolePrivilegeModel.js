@@ -30,10 +30,7 @@ const RolePrivilege = SequelizeInstance.define('RolePrivilege', {
 
 RolePrivilege.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    rolePrivilegeSeedData.forEach((ele, index) => {
-      rolePrivilegeSeedData[index].createdAt = new Date();
-      rolePrivilegeSeedData[index].updatedAt = new Date();
-    });
+    return RolePrivilege.bulkCreate(rolePrivilegeSeedData, {individual: true,});
   } catch (err) {
     console.log(`An error occured while syncing RolePrivilege: ${err}`);
   }

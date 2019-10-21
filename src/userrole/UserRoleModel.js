@@ -30,10 +30,6 @@ const UserRole = SequelizeInstance.define('UserRole', {
 
 UserRole.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    userRoleSeedData.forEach((ele, index) => {
-      userRoleSeedData[index].createdAt = new Date();
-      userRoleSeedData[index].updatedAt = new Date();
-    });
     return UserRole.bulkCreate(userRoleSeedData, {individual: true,});
   } catch (err) {
     console.log(`An error occured while syncing UserRole: ${err}`);

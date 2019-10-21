@@ -20,10 +20,6 @@ const Role = SequelizeInstance.define('Role', {
 
 Role.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    roleSeedData.forEach((ele, index) => {
-      roleSeedData[index].createdAt = new Date();
-      roleSeedData[index].updatedAt = new Date();
-    });
     return Role.bulkCreate(roleSeedData, {individualHooks: true});
   } catch (err){
     console.log(`Error creating role seed data ${err}`);
