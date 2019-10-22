@@ -1,6 +1,34 @@
 const activeEnum = require('../constants/activeEnum');
 const genericForbiddenError = require('../constants/genericForbiddenResponse');
 
+const roleBeforeSave = {
+  roleName: {
+    type: 'string',
+    description: 'The name of the role',
+  },
+  active: {
+    type: 'string',
+    enum: activeEnum,
+    description: 'Whether or not the row is active',
+  },
+};
+
+const roleAfterSave = {
+  ...roleBeforeSave,
+  id: {
+    type: 'number',
+    description: 'Identifier for the role',
+  },
+  createdAt: {
+    type: 'string',
+    description: 'The date the role was created',
+  },
+  updatedAt: {
+    type: 'string',
+    description: 'The date that the role was last updated',
+  },
+};
+
 const userBeforeSave = {
   username: {
     type: 'string',
@@ -38,7 +66,19 @@ const userAfterSave = {
   id: {
     type: 'number',
     description: 'The identity of the user',
-  }
+  },
+};
+
+const userAfterSaveWithRoles = {
+  ...userAfterSave,
+  roles: {
+    type: 'array',
+    description: 'Roles that the user has',
+    items: {
+      type: 'object',
+      properties: roleAfterSave,
+    },
+  },
 };
 
 exports.createUser = {
@@ -186,7 +226,7 @@ exports.getWithFilter = {
           type: 'array',
           items: {
             type: 'object',
-            properties: userAfterSave,
+            properties: userAfterSaveWithRoles,
           },
           description: 'The users that matched the filter',
         }

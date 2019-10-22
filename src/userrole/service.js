@@ -3,6 +3,7 @@ const UserRole = require('./UserRoleModel');
 
 exports.createUserRole = async (req, reply) => {
   try {
+    console.log(req.body.userRole);
     const userRole = UserRole.build(req.body.userRole);
 
     const savedUserRole = await userRole.save();

@@ -15,27 +15,11 @@ const Privilege = SequelizeInstance.define('Privilege', {
 			allowNull: false,
 		},
  },
- {
-		hooks: {
-			beforeUpdate: async (privilege) => {
-				privilege.updatedAt = new Date();
-				return privilege;
-			},
-			beforeCreate: async (privilege) => {
-				privilege.createdAt = new Date();
-				return privilege;
-			},
-		}
- }
 );
 
 
 Privilege.sync({force: config.db.forceTableCreation}).then(() => {
 	try {
-		privilegeSeedData.forEach((ele, index) => {
-			privilegeSeedData[index].createdAt = new Date();
-			privilegeSeedData[index].updatedAt = new Date();
-		});
 		return Privilege.bulkCreate(privilegeSeedData, {invidualHooks: true,});
 	} catch (err){
 		console.log(`Error creating privilege seed data: ${err}`);

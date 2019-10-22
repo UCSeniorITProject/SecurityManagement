@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const config = require('../../config');
 const activeEnum = require('../constants/activeEnum');
 const userSeedData = require('./userSeedData');
-const {hashAsync} = require('../helpers/bcrypt');
+const {hashAsync} = require('../constants/helpers/bcrypt');
 const bcrypt = require('bcrypt');
 
 const User = SequelizeInstance.define('User', {
@@ -36,15 +36,12 @@ const User = SequelizeInstance.define('User', {
     hooks: {
       beforeCreate: async (user) => {
         user.password = await hashAsync(config.saltRounds, user.password);
-        user.createdAt = new Date();
-        user.updatedAt = new Date();
         return user;
       },
       beforeUpdate: async (user) => {
         if(user.changed('password')){
           user.password = await hashAsync(config.saltRounds, user.password);
         }
-        user.updatedAt = new Date();
         return user;
       },
     },
@@ -57,23 +54,15 @@ User.prototype.isValidPassword = function(password){
 
 User.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    userSeedData.forEach((ele, index) => {
-      userSeedData[index].createdAt = new Date();
-      userSeedData[index].updatedAt = new Date();
-    });
     return User.bulkCreate(userSeedData, {individualHooks: true,});
   } catch (err) {
     console.log(`An error occured during User data seeding: ${error}`);
   }
 });
 
-User.associate = function(models){
-  User.belongsToMany(models.Role, {
-    through: 'UserRoles',
-    as: 'roles',
-    foreignKey: 'userID',
-    otherKey: 'roleID',
-  });
-};
+
+// User.belongsToMany(Role, {
+//   through: UserRole,
+// });
 
 module.exports = User;
