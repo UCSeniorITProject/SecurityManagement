@@ -1,7 +1,8 @@
 const {boomify} = require('boom');
 const User = require('./UserModel');
-const jwt = require('../helpers/jwt');
+const jwt = require('../constants/helpers/jwt');
 const config = require('../../config');
+const Role = require('../role/RoleModel');
 
 exports.createUser = async (req, reply) => {
   try {
@@ -86,9 +87,15 @@ exports.getWithFilter = async (req, reply) => {
   try {
     const users = await User.findAll({
       where: req.query,
+      include: [{
+        model: Role,
+      }]
+    });
+    const transformedUsers = users.map(x => {
+      return {...x.dataValues, roles: x.Roles.map(y => y.dataValues)};
     });
 
-    return {users: users.map(e => e.dataValues)};
+    return {users: transformedUsers};
   } catch (err) {
     throw boomify(err);
   }

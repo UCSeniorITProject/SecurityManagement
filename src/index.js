@@ -1,4 +1,4 @@
-  
+const createRelationships = require('./relationships');  
 const fastify = require('fastify')({
   logger: true,
   pluginTimeout: 60000,
@@ -12,9 +12,10 @@ const start = async () => {
 		fastify.decorateRequest("sqlConnection", sqlConnection);
     fastify.register(require('fastify-swagger'), swagger.options);
     fastify.register(require('./user'), {prefix: '/api/user'});
-    fastify.register(require('./privilege'), {prefix: '/api/privilege'});
     fastify.register(require('./role'), {prefix: '/api/role'});
     fastify.register(require('./userrole'), {prefix: '/api/user-role'})
+    fastify.register(require('./privilege'), {prefix: '/api/privilege'});
+    createRelationships();
     await fastify.listen(3000);
     fastify.swagger();
     fastify.log.info(`Server is listening on ${fastify.server.address().port}`);

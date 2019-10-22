@@ -35,3 +35,5 @@ RolePrivilege.sync({force: config.db.forceTableCreation}).then(() => {
     console.log(`An error occured while syncing RolePrivilege: ${err}`);
   }
 });
+
+module.exports = RolePrivilege;

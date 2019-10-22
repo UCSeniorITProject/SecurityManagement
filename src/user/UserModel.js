@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const config = require('../../config');
 const activeEnum = require('../constants/activeEnum');
 const userSeedData = require('./userSeedData');
-const {hashAsync} = require('../helpers/bcrypt');
+const {hashAsync} = require('../constants/helpers/bcrypt');
 const bcrypt = require('bcrypt');
 
 const User = SequelizeInstance.define('User', {
@@ -60,10 +60,9 @@ User.sync({force: config.db.forceTableCreation}).then(() => {
   }
 });
 
-User.associate = function(models){
-  User.belongsToMany(models.Role, {
-    through: models.UserRole,
-  });
-};
+
+// User.belongsToMany(Role, {
+//   through: UserRole,
+// });
 
 module.exports = User;

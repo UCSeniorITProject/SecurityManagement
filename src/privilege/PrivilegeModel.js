@@ -26,10 +26,4 @@ Privilege.sync({force: config.db.forceTableCreation}).then(() => {
 	}
 });
 
-Privilege.associate = function(models){
-	Privilege.belongsToMany(models.Role, {
-		through: models.RolePrivilege,
-	});
-};
-
 module.exports = Privilege;
