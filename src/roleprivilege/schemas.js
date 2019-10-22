@@ -34,5 +34,66 @@ const rolePrivilegeAfterSave = {
 };
 
 exports.createRolePrivilege = {
+ description: 'Creates a new role privilege',
+ tags: ['RolePrivilege'],
+ summary: 'Creates a new role privilege with the given request body',
+ body: {
+   type: 'object',
+   properties: {
+     rolePrivilege: {
+      required: Object.keys(rolePrivilegeBeforeSave),
+      type: 'object',
+      properties: rolePrivilegeBeforeSave,
+      description: 'The role privilege to create';
+     },
+   },
+ },
+ exposeRoute: true,
+ response: {
+  200: {
+    description: 'Succesfully created the role privilege',
+    type: 'object',
+    properties: {
+      rolePrivilege: {
+        type: 'object',
+        properties: rolePrivilegeAfterSave,
+      },
+    },
+  },
+  ...genericForbiddenError,
+ },
+};
 
+exports.deleteRolePrivilege = {
+  description: 'Deletes a given role privilege',
+  tags: ['RolePrivilege'],
+  params: {
+    type: 'object',
+    required: ['id'],
+    properties: {
+      id: {
+        type: 'number',
+        description: 'The ID of the role privilege to delete',
+      }
+    }
+  },
+  exposeRoute: true,
+  response: {
+    204: {
+      description: 'The role privilege was successfully deleted',
+      type: 'null',
+    },
+    404: {
+      description: 'The role privilege was not found',
+      type: 'object',
+      properties: {
+        msg: {
+          type: 'string',
+          description: 'The message returned by the API',
+          default: 'The role privilege was not found',
+        },
+      },
+    },
+    ...genericForbiddenError,
+  },
 };

@@ -167,5 +167,6 @@ exports.deleteRole = {
         },
       },
     },
+    ...genericForbiddenError,
   },
 };
