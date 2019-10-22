@@ -18,7 +18,7 @@ const RolePrivilege = SequelizeInstance.define('RolePrivilege', {
       key: 'id',
     },
   },
-  privilege: {
+  privilegeID: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
     references: {

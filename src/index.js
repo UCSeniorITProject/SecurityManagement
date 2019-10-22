@@ -15,6 +15,7 @@ const start = async () => {
     fastify.register(require('./role'), {prefix: '/api/role'});
     fastify.register(require('./userrole'), {prefix: '/api/user-role'})
     fastify.register(require('./privilege'), {prefix: '/api/privilege'});
+    fastify.register(require('./roleprivilege'), {prefix: '/api/role-privilege'})
     createRelationships();
     await fastify.listen(3000);
     fastify.swagger();

@@ -44,7 +44,7 @@ exports.createRolePrivilege = {
       required: Object.keys(rolePrivilegeBeforeSave),
       type: 'object',
       properties: rolePrivilegeBeforeSave,
-      description: 'The role privilege to create';
+      description: 'The role privilege to create',
      },
    },
  },
