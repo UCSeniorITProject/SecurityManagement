@@ -18,11 +18,11 @@ const RolePrivilege = SequelizeInstance.define('RolePrivilege', {
       key: 'id',
     },
   },
-  userID: {
+  privilege: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Users',
+      model: 'Privileges',
       key: 'id',
     },
   },
