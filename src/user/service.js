@@ -101,8 +101,6 @@ exports.getWithFilter = async (req, reply) => {
          privileges: x.Roles.map(y => y.Privileges.map(z => z.dataValues))[0]};
     });
 
-    
-    console.log(transformedUsers[0].privileges)
     return {users: transformedUsers};
   } catch (err) {
     throw boomify(err);
