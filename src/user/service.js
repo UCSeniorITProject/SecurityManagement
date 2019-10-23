@@ -79,7 +79,7 @@ exports.login = async (req, reply) => {
             },
             config.jwtSecret,
             {
-              expiresIn: '1h',
+              expiresIn: `${config.jwtDurationHours}m`,
             },
         );
 
