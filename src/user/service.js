@@ -51,7 +51,11 @@ exports.login = async (req, reply) => {
     const user = await User.findAll({
       where: {
         username: req.body.authDetails.username,
-      }
+      },
+      include: [{
+        model: Role,
+        include: [Privilege],
+      }]
     });
 
     if(user.length === 0){
@@ -63,9 +67,15 @@ exports.login = async (req, reply) => {
     const passwordIsValid = user[0].isValidPassword(req.body.authDetails.password);
 
     if(passwordIsValid){
+
+      const userData = {
+        userID: user[0].dataValues.id,
+        roles: user[0].dataValues.Roles.map(y => y.roleName),
+        privileges: user[0].dataValues.Roles.map(y => y.Privileges.map(z => z.dataValues.id))[0]};
+
       const token = await jwt.signAsync(
             {
-              userId: user[0].dataValues.id,
+              ...userData,
             },
             config.jwtSecret,
             {
