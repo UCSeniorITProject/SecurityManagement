@@ -24,7 +24,7 @@ const UserRole = SequelizeInstance.define('UserRole', {
     references: {
       model: 'Roles',
       key: 'id'
-    }
+    },
   },
 },);
 
