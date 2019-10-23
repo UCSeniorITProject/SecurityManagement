@@ -60,9 +60,4 @@ User.sync({force: config.db.forceTableCreation}).then(() => {
   }
 });
 
-
-// User.belongsToMany(Role, {
-//   through: UserRole,
-// });
-
 module.exports = User;

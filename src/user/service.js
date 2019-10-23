@@ -3,6 +3,7 @@ const User = require('./UserModel');
 const jwt = require('../constants/helpers/jwt');
 const config = require('../../config');
 const Role = require('../role/RoleModel');
+const Privilege = require('../privilege/PrivilegeModel');
 
 exports.createUser = async (req, reply) => {
   try {
@@ -89,12 +90,19 @@ exports.getWithFilter = async (req, reply) => {
       where: req.query,
       include: [{
         model: Role,
+        include: [Privilege],
       }]
     });
+
     const transformedUsers = users.map(x => {
-      return {...x.dataValues, roles: x.Roles.map(y => y.dataValues)};
+      return {
+         ...x.dataValues,
+         roles: x.Roles.map(y => y.dataValues),
+         privileges: x.Roles.map(y => y.Privileges.map(z => z.dataValues))[0]};
     });
 
+    
+    console.log(transformedUsers[0].privileges)
     return {users: transformedUsers};
   } catch (err) {
     throw boomify(err);
