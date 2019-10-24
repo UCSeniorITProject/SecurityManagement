@@ -8,7 +8,7 @@ const swagger = require('../swagger-config');
 const sqlConnection = require('./dbConnection');
 const config = require('../config');
 
-const start = async () => {
+const buildFastify = async () => {
   try {
 		//decorate fastify request with SQL instance -- caches the connection/allows easy access
 		fastify.decorateRequest('sqlConnection', sqlConnection);
@@ -35,4 +35,6 @@ const start = async () => {
   }
 };
 
-start();
+buildFastify();
+
+module.exports = buildFastify;

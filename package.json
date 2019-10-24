@@ -17,11 +17,14 @@
   },
   "homepage": "https://github.com/SafeMedsSeniorDesign/SecurityManagement#readme",
   "dependencies": {
+    "assert": "^2.0.0",
     "bcrypt": "^3.0.6",
     "boom": "^7.3.0",
+    "faker": "^4.1.0",
     "fastify": "^2.10.0",
     "fastify-swagger": "^2.4.0",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^6.2.2",
     "restify-jwt-community": "^1.1.1",
     "sequelize": "^5.19.6",
     "tedious": "^6.4.0"
