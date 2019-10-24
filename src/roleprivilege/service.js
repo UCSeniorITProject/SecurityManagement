@@ -3,7 +3,6 @@ const RolePrivilege = require('./RolePrivilegeModel');
 
 exports.createRolePrivilege = async (req, reply) => {
   try {
-    console.log(req.body.rolePrivilege)
     const rolePrivilege = RolePrivilege.build(req.body.rolePrivilege);
 
     const savedRolePrivilege = await rolePrivilege.save();

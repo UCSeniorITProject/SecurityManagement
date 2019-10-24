@@ -14,7 +14,15 @@ const privilegeBeforeSave = {
 };
 
 const privilegeAfterSave = {
-  ...privilegeBeforeSave,
+  privilegeName: {
+    type: 'string',
+    description: 'The name of the privilege',
+  },
+  active: {
+    type: 'string',
+    enum: activeEnum,
+    description: 'Whether or not the privilege is active',
+  },
   id: {
     type: 'number',
     description: 'The identity column of the privilege',

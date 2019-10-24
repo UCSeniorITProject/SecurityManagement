@@ -3,6 +3,7 @@ const User = require('./UserModel');
 const jwt = require('../constants/helpers/jwt');
 const config = require('../../config');
 const Role = require('../role/RoleModel');
+const Privilege = require('../privilege/PrivilegeModel');
 
 exports.createUser = async (req, reply) => {
   try {
@@ -50,7 +51,11 @@ exports.login = async (req, reply) => {
     const user = await User.findAll({
       where: {
         username: req.body.authDetails.username,
-      }
+      },
+      include: [{
+        model: Role,
+        include: [Privilege],
+      }]
     });
 
     if(user.length === 0){
@@ -62,13 +67,19 @@ exports.login = async (req, reply) => {
     const passwordIsValid = user[0].isValidPassword(req.body.authDetails.password);
 
     if(passwordIsValid){
+
+      const userData = {
+        userID: user[0].dataValues.id,
+        roles: user[0].dataValues.Roles.map(y => y.roleName),
+        privileges: user[0].dataValues.Roles.map(y => y.Privileges.map(z => z.dataValues.id))[0]};
+
       const token = await jwt.signAsync(
             {
-              userId: user[0].dataValues.id,
+              ...userData,
             },
             config.jwtSecret,
             {
-              expiresIn: '1h',
+              expiresIn: `${config.jwtDurationHours}m`,
             },
         );
 
@@ -89,10 +100,15 @@ exports.getWithFilter = async (req, reply) => {
       where: req.query,
       include: [{
         model: Role,
+        include: [Privilege],
       }]
     });
+
     const transformedUsers = users.map(x => {
-      return {...x.dataValues, roles: x.Roles.map(y => y.dataValues)};
+      return {
+         ...x.dataValues,
+         roles: x.Roles.map(y => y.dataValues),
+         privileges: x.Roles.map(y => y.Privileges.map(z => z.dataValues))[0]};
     });
 
     return {users: transformedUsers};

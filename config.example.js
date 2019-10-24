@@ -13,6 +13,7 @@ module.exports = {
     //DO NOT TURN THIS TO TRUE YOU WILL DROP EVERY TABLE
     forceTableCreation: false,
   },
+  jwtDurationHours: '15',
   saltRounds: 8,
   jwtSecret: 'qweqweqweqweqwe',
 };
