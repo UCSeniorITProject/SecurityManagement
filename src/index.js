@@ -1,14 +1,14 @@
 const createRelationships = require('./relationships');  
+const config = require('../config');
 const fastify = require('fastify')({
-  logger: true,
+  logger: config.shouldFastifyLog,
   pluginTimeout: 60000,
 });
 const rjwt = require('restify-jwt-community');
 const swagger = require('../swagger-config');
 const sqlConnection = require('./dbConnection');
-const config = require('../config');
 
-const buildFastify = async () => {
+(async () => {
   try {
 		//decorate fastify request with SQL instance -- caches the connection/allows easy access
 		fastify.decorateRequest('sqlConnection', sqlConnection);
@@ -22,7 +22,7 @@ const buildFastify = async () => {
         .use(
           rjwt({secret: config.jwtSecret})
             .unless({
-              path: ['/api/user/login', '/api/user/token/verify'],
+              path: ['/api/user/login', '/api/user/token/verify', '/api/user'],
             })
         );
     createRelationships();
@@ -33,8 +33,6 @@ const buildFastify = async () => {
     fastify.log.error(err);
     process.exit(1);
   }
-};
+})();
 
-buildFastify();
-
-module.exports = buildFastify;
+module.exports = fastify;

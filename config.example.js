@@ -16,4 +16,5 @@ module.exports = {
   jwtDurationHours: '15',
   saltRounds: 8,
   jwtSecret: 'qweqweqweqweqwe',
+  shouldFastifyLog: false,
 };
