@@ -23,7 +23,7 @@ exports.updateRole = async(req, reply) => {
       },
     );
 
-    if(updatedRoleCount === 0){
+    if(updatedRoleCount[0] === 0){
       return reply
                 .code(404)
                 .send();
@@ -59,7 +59,7 @@ exports.deleteRole = async(req, reply) => {
       },
     });
 
-    if(roleDeletedCount === 0){
+    if(roleDeletedCount[0] === 0){
       return reply
                 .code(404)
                 .send({

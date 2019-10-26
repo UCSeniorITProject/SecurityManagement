@@ -20,7 +20,7 @@ exports.deleteRolePrivilege = async(req, reply) => {
       },
     });
 
-    if(rolePrivilegeDeletedCount === 0){
+    if(rolePrivilegeDeletedCount[0] === 0){
       return reply
                 .code(404)
                 .send({

@@ -28,7 +28,7 @@ exports.updateUser = async (req, reply) => {
       },
     );
 
-    if(updatedUserCount === 0){
+    if(updatedUserCount[0] === 0){
       return reply
                 .code(404)
                 .send();

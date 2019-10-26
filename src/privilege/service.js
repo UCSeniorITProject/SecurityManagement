@@ -24,7 +24,7 @@ exports.updatePrivilege = async (req, resp) => {
         },
       );
 
-    if(updatedPrivilegeCount === 0){
+    if(updatedPrivilegeCount[0] === 0){
       return resp
                 .code(404)
                 .send();
@@ -60,7 +60,7 @@ exports.deletePrivilege = async(req, resp) => {
       },
     });
 
-    if(privilegeDeletedCount === 0){
+    if(privilegeDeletedCount[0] === 0){
       return resp
                 .code(404)
                 .send({
