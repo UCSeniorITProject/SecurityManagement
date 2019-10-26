@@ -54,6 +54,16 @@ exports.verifyToken = async(fastify, token) => {
   });
 };
 
+exports.refreshToken = async(fastify, refreshToken) => {
+  return fastify.inject({
+    method: 'POST',
+    url: '/api/user/token/refresh',
+    payload: {
+      refreshToken,
+    },
+  });
+};
+
 exports.createMockUserObject = () => {
   return {
     username: faker.internet.userName(),

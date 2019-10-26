@@ -44,7 +44,7 @@ describe('UserRole API', async function(){
 
     it('password gets hashed',  async() => {
       const passwordAfterPost = JSON.parse(apiUser.body).password;
-      assert.notStrictstrictEqual(testUser.password, passwordAfterPost, 'Passwords is not getting hashed');
+      assert.notStrictEqual(testUser.password, passwordAfterPost, 'Passwords is not getting hashed');
     });
 
     it('creates a new user', async () => {
@@ -81,7 +81,7 @@ describe('UserRole API', async function(){
       delete clonedTestUser.password;
 
       //password gets hashed
-      assert.deepStrictstrictEqual(formattedUpdatedUser, clonedTestUser, 'User is not getting updated');
+      assert.deepStrictEqual(formattedUpdatedUser, clonedTestUser, 'User is not getting updated');
     });
 
     it('password hashes on update', async() => {
@@ -89,7 +89,7 @@ describe('UserRole API', async function(){
       const mockUpdateData = userHelpers.createMockUserObject();
       const updatedUser = await userHelpers.updateUser(fastify, userID, mockUpdateData, token);
       const parsedUpdatedUser = JSON.parse(updatedUser.body).user;
-      assert.notstrictEqual(parsedUpdatedUser.password, mockUpdateData.password, 'Passwords are not being hashed on update')
+      assert.notStrictEqual(parsedUpdatedUser.password, mockUpdateData.password, 'Passwords are not being hashed on update')
     });
 
     it('returns 404 on no rows updated', async () =>{ 
@@ -116,7 +116,7 @@ describe('UserRole API', async function(){
       });
       const parsedToken = JSON.parse(authToken.body).accessToken;
       assert.strictEqual(authToken.statusCode, 200, 'Login API did not return success');
-      assert.notStrictstrictEqual(parsedToken, undefined, 'Valid login did not provide token');
+      assert.notStrictEqual(parsedToken, undefined, 'Valid login did not provide token');
     });
 
     it('returns a 401 on invalid login', async () => {
@@ -127,7 +127,7 @@ describe('UserRole API', async function(){
       assert.strictEqual(authToken.statusCode, 401, 'API did not validate login properly');
     });
 
-    it('provides a refresh token when an access token is created', () => {
+    it('provides a refresh token when an access token is created', async () => {
       const authToken = await userHelpers.login(fastify, {
         username: testUser.username,
         password: testUser.password,
@@ -163,6 +163,26 @@ describe('UserRole API', async function(){
   });
 
   describe('POST /api/user/token/verify', async () => {
+    it('verifies valid token', async () => {
+      const tokenValidationRequest = await userHelpers.verifyToken(fastify, token);
+      const isTokenValid = JSON.parse(tokenValidationRequest.body).valid;
+      assert.equal(isTokenValid, true, 'Valid token was rejected');
+    });
+
+    it('does not allowed expired token', async () => {
+      const jwtToken = await signAsync({}, config.jwtSecret, {'expiresIn': '-10s'});
+      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, jwtToken);
+      assert.ok(testRequest.statusCode === 401 || testRequest.statusCode === 403, 'Expired token was allowed through the API');
+    });
+
+    it('rejects invalid token', async () => {
+      const tokenValidationRequest = await userHelpers.verifyToken(fastify, 'qweqweqweqweqwe');
+      const isTokenValid = JSON.parse(tokenValidationRequest.body).valid;
+      assert.equal(isTokenValid, false, 'Valid token was rejected');
+    });
+  });
+
+  describe('POST /api/user/token/refresh', async () => {
     let testUser;
     let apiUser;
     before(async () => {
@@ -170,18 +190,26 @@ describe('UserRole API', async function(){
       apiUser = await userHelpers.createUser(fastify, testUser);
     });
 
-    it('verifies valid token', () => {
-      
+    it('refreshes valid refresh token' , async () => {
+      const tokens = await userHelpers.login(fastify, {
+        username: testUser.username,
+        password: testUser.password,
+      });
+
+      const refreshToken = JSON.parse(tokens.body).refreshToken;
+      const refreshTokenRequest = await userHelpers.refreshToken(fastify, refreshToken);
+      assert.strictEqual(refreshTokenRequest.statusCode, 200, 'Valid refresh token was not refreshed');
     });
 
-    it('does not allowed expired token', () => {
-      const jwtToken = await signAsync({}, config.jwtSecret, {'expiresIn': '-10s'});
-      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, jwtToken);
-      assert.ok(testRequest.statusCode !== 401 && testRequest.statusCode !== 403, 'Expired token was allowed through the API');
+    it('rejects expired refresh token', async () => {
+      const refreshToken = await signAsync({}, config.jwtRefreshTokenSecret, {'expiresIn': '-10s'});
+      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, refreshToken);
+      assert.strictEqual(testRequest.statusCode, 401, 'Expired refresh token allowed');
     });
 
-    it('rejects invalid token', () => {
-
+    it('rejects invalid refresh token', async () => {
+      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, 'qweqwwq');
+      assert.strictEqual(testRequest.statusCode, 401, 'Expired refresh token allowed');
     });
   });
 });
