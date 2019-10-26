@@ -219,10 +219,14 @@ exports.login = {
       description: 'Successfully granted auth token',
       type: 'object',
       properties: {
-        token: {
+        accessToken: {
           type: 'string',
           description: 'The token that was granted',
-        }
+        },
+        refreshToken: {
+          type: 'string',
+          description: 'The refresh token was granted',
+        },
       }
     },
     401: {

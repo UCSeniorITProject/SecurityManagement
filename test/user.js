@@ -12,7 +12,29 @@ describe('UserRole API', async function(){
         username: fakeUserDetails.username,
         password: fakeUserDetails.password,
     });
-    token = JSON.parse(authTokenRequest.body).token;
+    token = JSON.parse(authTokenRequest.body).accessToken;
+  });
+
+  describe('API token validation', async () => {
+    it('stops request on no auth token provided', async () => {
+
+    });
+
+    it('stops a request when an invalid auth token is provided', async () => {
+
+    });
+
+    it('provides a refresh token when an access token is created', () => {
+
+    });
+
+    it('refreshes the token on API request', async () => {
+
+    });
+
+    it('allows a request through when a token is provided', async () => {
+
+    });
   });
 
   describe('POST /api/user ', async () => {
@@ -95,7 +117,7 @@ describe('UserRole API', async function(){
         username: testUser.username,
         password: testUser.password,
       });
-      const parsedToken = JSON.parse(authToken.body).token;
+      const parsedToken = JSON.parse(authToken.body).accessToken;
       assert.equal(authToken.statusCode, 200, 'Login API did not return success');
       assert.notStrictEqual(parsedToken, undefined, 'Valid login did not provide token');
     });
@@ -131,6 +153,23 @@ describe('UserRole API', async function(){
     it('shows no results when an invalid query is provided', async () => {
       const user = await userHelpers.getUserWithFilter(fastify, {id: 1290123901, active: 'N', phoneNumber: '5123123123123123123',}, token);
       assert.equal(JSON.parse(user.body).users.length, 0, 'The API returned results when it should not have');
+    });
+  });
+
+  describe('POST /api/user/token/verify', async () => {
+    let testUser;
+    let apiUser;
+    before(async () => {
+      testUser = userHelpers.createMockUserObject();
+      apiUser = await userHelpers.createUser(fastify, testUser);
+    });
+
+    it('verifies valid token', () => {
+      
+    });
+
+    it('rejects invalid token', () => {
+
     });
   });
 });

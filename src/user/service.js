@@ -73,17 +73,25 @@ exports.login = async (req, reply) => {
         roles: user[0].dataValues.Roles.map(y => y.roleName),
         privileges: user[0].dataValues.Roles.map(y => y.Privileges.map(z => z.dataValues.id))[0]};
 
-      const token = await jwt.signAsync(
+      const accessToken = await jwt.signAsync(
             {
               ...userData,
             },
             config.jwtSecret,
             {
-              expiresIn: `${config.jwtDurationHours}m`,
+              expiresIn: `${config.jwtDurationMinutes}m`,
             },
         );
 
-      return {token};
+      const refreshToken = await jwt.signAsync(
+            {},
+            config.jwtSecret,
+            {
+              expiresIn: `${config.jwtRefreshDurationHours}m`
+            }
+      );
+
+      return {accessToken, refreshToken};
     } 
 
     return reply
