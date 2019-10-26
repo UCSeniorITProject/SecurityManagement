@@ -40,7 +40,7 @@ exports.getUserWithFilter = async (fastify, userFilter, token) => {
     headers: {
       'Authorization': `Bearer ${token}`,
     },
-    url: `/api/user${qs.stringify(userFilter)}`,
+    url: `/api/user?${qs.stringify(userFilter)}`,
   });
 };
 

@@ -77,7 +77,6 @@ describe('UserRole API', async function(){
       const userID = 5000000;
       const mockUpdateData = userHelpers.createMockUserObject();
       const updatedUser = await userHelpers.updateUser(fastify, userID, mockUpdateData, token);
-      console.log(updatedUser)
       assert.equal(updatedUser.statusCode, 404, 'Rows updated when 404 should have been thrown');
     });
   });
@@ -115,12 +114,23 @@ describe('UserRole API', async function(){
     });
   });
 
-  describe('GET /api/user', () => {
+  describe('GET /api/user', async () => {
     let testUser;
     let apiUser;
-    before(async() => {
+    before(async () => {
       testUser = userHelpers.createMockUserObject();
       apiUser = await userHelpers.createUser(fastify, testUser);
+    });
+
+    it('shows a newly created user in the results', async () => {
+      const apiUserID = JSON.parse(apiUser.body).user.id;
+      const user = await userHelpers.getUserWithFilter(fastify, {id: apiUserID}, token);
+      assert.equal(JSON.parse(user.body).users[0].id, apiUserID, 'The user was not successfully fetched');
+    });
+
+    it('shows no results when an invalid query is provided', async () => {
+      const user = await userHelpers.getUserWithFilter(fastify, {id: 1290123901, active: 'N', phoneNumber: '5123123123123123123',}, token);
+      assert.equal(JSON.parse(user.body).users.length, 0, 'The API returned results when it should not have');
     });
   });
 });

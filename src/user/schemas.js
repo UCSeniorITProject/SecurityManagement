@@ -246,7 +246,7 @@ exports.getWithFilter = {
   query: {
     type: 'object',
     description: 'The filter to retrieve users with',
-    properties: userBeforeSave,
+    properties: userAfterSave,
   },
   exposeRoute: true,
   response: {
