@@ -7,5 +7,6 @@ module.exports = (fastify, options, next) => {
   fastify.post('/login', {schema: userSchemas.login}, userService.login);
   fastify.get('/', {schema: userSchemas.getWithFilter}, userService.getWithFilter);
   fastify.post('/token/verify', {schema: userSchemas.verifyToken}, userService.verifyToken);
+  fastify.post('/token/refresh', {schema: userSchemas.refreshAccessToken}, userService.refreshAccessToken);
   next();
 };

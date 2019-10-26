@@ -84,8 +84,8 @@ exports.login = async (req, reply) => {
         );
 
       const refreshToken = await jwt.signAsync(
-            {},
-            config.jwtSecret,
+            {...userData,},
+            config.jwtRefreshTokenSecret,
             {
               expiresIn: `${config.jwtRefreshDurationHours}m`
             }
@@ -133,4 +133,35 @@ exports.verifyToken = async (req, reply) => {
   } catch (err) {
     return {valid: false};
   }
+};
+
+exports.refreshAccessToken = async (req, reply) => {
+    try {
+      const decodedRefreshToken = await jwt.verifyAsync(req.body.refreshToken, config.jwtRefreshTokenSecret);
+      delete decodedRefreshToken.iat;
+      delete decodedRefreshToken.exp;
+
+      const accessToken = await jwt.signAsync(
+        {
+          ...decodedRefreshToken,
+        },
+        config.jwtSecret,
+        {
+          expiresIn: `${config.jwtDurationMinutes}m`,
+        },
+      );
+
+      const refreshToken = await jwt.signAsync(
+          {...decodedRefreshToken,},
+          config.jwtRefreshTokenSecret,
+          {
+            expiresIn: `${config.jwtRefreshDurationHours}m`
+          }
+      );
+      return {accessToken, refreshToken}
+    } catch (err) {
+      return  reply
+                .code(401)
+                .send({msg: 'Refresh token is invalid'});
+    }
 };

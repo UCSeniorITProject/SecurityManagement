@@ -22,7 +22,7 @@ const sqlConnection = require('./dbConnection');
         .use(
           rjwt({secret: config.jwtSecret})
             .unless({
-              path: ['/api/user/login', '/api/user/token/verify', '/api/user'],
+              path: ['/api/user/login', '/api/user/token/verify', '/api/user', '/api/user/token/refresh'],
             })
         );
     createRelationships();
