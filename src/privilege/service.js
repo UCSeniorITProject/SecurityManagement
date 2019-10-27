@@ -15,6 +15,13 @@ exports.createPrivilege = async (req, resp) => {
 
 exports.updatePrivilege = async (req, resp) => {
   try {
+    if(Object.entries(req.body.privilege).length === 0){
+      const privilege = await Privilege.findOne({where: {
+        id: req.params.id,
+      }})
+
+      return {privilege: privilege.dataValues};
+    }
     const updatedPrivilegeCount = await Privilege.update(
       req.body.privilege,
         { 

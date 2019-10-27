@@ -16,7 +16,7 @@ exports.createRole = async (fastify, role, token) => {
 
 exports.updateRole = async (fastify, role, roleID, token) => {
   return fastify.inject({
-    method: 'PUT',
+    method: 'PATCH',
     url: `/api/role/${roleID}`,
     payload: {
       role,
