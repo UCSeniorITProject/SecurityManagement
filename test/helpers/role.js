@@ -27,7 +27,7 @@ exports.updateRole = async (fastify, role, roleID, token) => {
   });
 };
 
-exports.getRoleWithFilter = async (fastify, roleFilter, token) => {
+exports.getList = async (fastify, token) => {
   return fastify.inject({
     method: 'GET',
     url: `/api/role?${qs.stringify(roleFilter)}`,

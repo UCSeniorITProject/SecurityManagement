@@ -51,4 +51,20 @@ describe('Role API', async function (){
       assert.strictEqual(updateRoleRequest.statusCode, 404, 'Invalid role was updated');
     });
   });
+
+  describe('GET /api/role/list', async () => {
+    it('successfully retrieves role after it is created', async () => {
+      const role = roleHelpers.createFakeRole();
+      const newRole = await roleHelpers.createRole(fastify, role, token);
+      const roleList = await roleHelpers.getList(fastify, token);
+      const createdRole = JSON.parse(roleList.body).roles.filter(x => x.roleName === role.roleName);
+      assert.ok(createdRole.length > 0, 'Role was not succesfully fetched or created');
+    });
+
+    it('does not show role in list when deleted', async () => {
+
+    });
+  });
+
+
 });
