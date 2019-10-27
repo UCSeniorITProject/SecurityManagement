@@ -70,8 +70,8 @@ exports.login = async (req, reply) => {
 
       const userData = {
         userID: user[0].dataValues.id,
-        roles: user[0].dataValues.Roles.map(y => y.roleName),
-        privileges: user[0].dataValues.Roles.map(y => y.Privileges.map(z => z.dataValues.id))[0]};
+        roles: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.roleName),
+        privileges: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.Privileges.filter(y=>y.active === 'Y').map(z => z.dataValues.id))[0]};
 
       const accessToken = await jwt.signAsync(
             {
