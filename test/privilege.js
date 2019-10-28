@@ -37,4 +37,41 @@ describe('Privilege API', async () => {
       assert.strictEqual(privilegeCreateRequest.statusCode, 400, 'Invalid post body allowed through');
     });
   });
+
+  describe('PATCH /api/privilege/:id', async () => {
+    it('successfully updates a privilege', async () => {
+      const privilege = privilegeHelpers.createFakePrivilege();
+      const createdPrivilege = await privilegeHelpers.create(fastify, privilege, token);
+      const parsedCreatedPrivilege = JSON.parse(createdPrivilege.body).privilege;
+      const newPrivilege = privilegeHelpers.createFakePrivilege();
+      const updatedPrivilegeRequest = await privilegeHelpers.update(fastify, parsedCreatedPrivilege.id, newPrivilege);
+      assert.strictEqual(JSON.parse(updatedPrivilegeRequest.body).privilege.privilegeName, newPrivilege.privilegeName, 'Privilege was not successfully updated');
+    });
+
+    it('throws a 404 when an invalid privilege is attempted to be updated', async () => {
+      const updatedPrivilegeRequest = await privilegeHelpers.update(fastify, 123123123, {}, token);
+      assert.strictEqual(updatedPrivilegeRequest.statusCode, 404, 'Invalid privilege ID was able to be updated');
+    });
+  });
+
+  describe('GET /api/privilege/list', async() => {
+    it('shows a newly created privilege', async () => {
+      const privilege = privilegeHelpers.createFakePrivilege();
+      await privilegeHelpers.create(fastify, privilege, token);
+      const privileges = await privilegeHelpers.getList(fastify, token);
+      const privilegeList = JSON.parse(privileges.body).privileges;
+      const matchedPrivilges = privilegeList.filter(x => x.privilegeName === privilege.privilegeName);
+      assert.ok(matchedPrivilges.length > 0, 'Did not show newly created privilege');
+    });
+
+    it('does not show a deleted privilege', async () => {
+      const privilege = privilegeHelpers.createFakePrivilege();
+      const createdPrivilege = await privilegeHelpers.create(fastify, privilege, token);
+      await privilegeHelpers.delete(fastify, JSON.parse(createdPrivilege.body).privilege.id, token);
+      const privileges = await privilegeHelpers.getList(fastify, token);
+      const privilegeList = JSON.parse(privileges.body).privileges;
+      const matchedPrivilges = privilegeList.filter(x => x.privilegeName === privilege.privilegeName);
+      assert.ok(matchedPrivilges.length === 0, 'Showed delete privilege');
+    });
+  });
 });
