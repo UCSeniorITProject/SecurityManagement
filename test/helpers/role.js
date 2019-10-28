@@ -30,7 +30,7 @@ exports.updateRole = async (fastify, role, roleID, token) => {
 exports.getList = async (fastify, token) => {
   return fastify.inject({
     method: 'GET',
-    url: `/api/role?${qs.stringify(roleFilter)}`,
+    url: `/api/role/list`,
     headers: {
       'Authorization': `Bearer ${token}`,
     },

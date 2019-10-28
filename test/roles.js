@@ -55,14 +55,21 @@ describe('Role API', async function (){
   describe('GET /api/role/list', async () => {
     it('successfully retrieves role after it is created', async () => {
       const role = roleHelpers.createFakeRole();
-      const newRole = await roleHelpers.createRole(fastify, role, token);
+      await roleHelpers.createRole(fastify, role, token);
       const roleList = await roleHelpers.getList(fastify, token);
       const createdRole = JSON.parse(roleList.body).roles.filter(x => x.roleName === role.roleName);
       assert.ok(createdRole.length > 0, 'Role was not succesfully fetched or created');
     });
 
     it('does not show role in list when deleted', async () => {
-
+      const role = roleHelpers.createFakeRole();
+      const roleRequest = await roleHelpers.createRole(fastify, role, token);
+      const parsedRoleRequest = JSON.parse(roleRequest.body).role;
+      await roleHelpers.deleteRole(fastify, parsedRoleRequest.id, token);
+      const roleList = await roleHelpers.getList(fastify, token);
+      const roles = JSON.parse(roleList.body).roles;
+      const filteredRoles = roles.filter(x => x.roleName === role.roleName);
+      assert.strictEqual(filteredRoles.length, 0, 'Role was not succesfully deleted');
     });
   });
 
