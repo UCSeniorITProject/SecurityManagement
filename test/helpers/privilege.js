@@ -1,11 +1,11 @@
 const faker = require('faker');
 
-exports.createRole = async (fastify, role, token) => {
+exports.create = (fastify, privilege, token) => {
   return fastify.inject({
     method: 'POST',
-    url: '/api/role',
+    url: '/api/privilege',
     payload: {
-      role,
+      privilege,
     },
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -13,12 +13,12 @@ exports.createRole = async (fastify, role, token) => {
   });
 };
 
-exports.updateRole = async (fastify, role, roleID, token) => {
+exports.update = (fastify, privilegeID, privilege, token) => {
   return fastify.inject({
     method: 'PATCH',
-    url: `/api/role/${roleID}`,
+    url: `/api/privilege/${privilegeID}`,
     payload: {
-      role,
+      privilege,
     },
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -26,29 +26,29 @@ exports.updateRole = async (fastify, role, roleID, token) => {
   });
 };
 
-exports.getList = async (fastify, token) => {
+exports.getList = (fastify, token) => {
   return fastify.inject({
     method: 'GET',
-    url: `/api/role/list`,
+    url: '/api/privilege/list',
     headers: {
       'Authorization': `Bearer ${token}`,
     },
   });
 };
 
-exports.deleteRole = async (fastify, roleID, token) => {
+exports.delete = (fastify, privilegeID, token) => {
   return fastify.inject({
     method: 'DELETE',
-    url: `/api/role/${roleID}`,
+    url: `/api/privilege/${privilegeID}`,
     headers: {
       'Authorization': `Bearer ${token}`,
     },
   });
 };
 
-exports.createFakeRole = () => {
+exports.createFakePrivilege = () => {
   return {
-    roleName: faker.name.jobTitle(),
+    privilegeName: faker.name.jobDescriptor(),
     active: 'Y',
   };
 };
