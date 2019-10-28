@@ -48,7 +48,7 @@ exports.deleteRole = async (fastify, roleID, token) => {
 
 exports.createFakeRole = () => {
   return {
-    roleName: faker.name.jobTitle(),
+    roleName: faker.name.jobTitle() + faker.name.lastName(),
     active: 'Y',
   };
 };
