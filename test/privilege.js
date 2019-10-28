@@ -16,13 +16,20 @@ describe('Privilege API', async () => {
   });
 
   describe('POST /api/privilege', async () => {
-    it('successfully created the privilege', async () => {
+    it('successfully creates a privilege', async () => {
       const privilege = privilegeHelpers.createFakePrivilege();
       await privilegeHelpers.create(fastify, privilege, token);
       const privileges = await privilegeHelpers.getList(fastify, token);
       const parsedPrivileges = JSON.parse(privileges.body).privileges;
       const matchedPrivilege = parsedPrivileges.filter(x => x.privilegeName === privilege.privilegeName);
       assert.ok(matchedPrivilege.length > 0, 'Privileges was not succesfully created');
+    });
+
+    it('rejects duplicate privilege names', async () => {
+      const privilege = privilegeHelpers.createFakePrivilege();
+      await privilegeHelpers.create(fastify, privilege, token);
+      const duplicatePrivilegeRequest = await privilegeHelpers.create(fastify, privilege, token);
+      assert.strictEqual(duplicatePrivilegeRequest.statusCode, 500, 'Duplicate privilege name was allowed');
     });
 
     it('rejects invalid request body', async () => {

@@ -8,6 +8,7 @@ const Privilege = SequelizeInstance.define('Privilege', {
 		privilegeName: {
 			type: Sequelize.DataTypes.STRING,
 			allowNull: false,
+			unique: true,
 		},
 		active: {
 			type: Sequelize.DataTypes.ENUM,
