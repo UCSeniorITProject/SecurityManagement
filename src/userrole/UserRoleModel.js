@@ -5,6 +5,11 @@ const userRoleSeedData = require('./userRoleSeedData');
 const config = require('../../config');
 
 const UserRole = SequelizeInstance.define('UserRole', {
+  id: {
+    type: Sequelize.DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   active: {
     type: Sequelize.DataTypes.ENUM,
     values: activeEnum,

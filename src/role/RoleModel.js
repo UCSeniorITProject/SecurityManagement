@@ -8,6 +8,7 @@ const Role = SequelizeInstance.define('Role', {
     roleName: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     active: {
       type: Sequelize.DataTypes.ENUM,

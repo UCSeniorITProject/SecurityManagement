@@ -18,6 +18,14 @@ exports.createUser = async (req, reply) => {
 
 exports.updateUser = async (req, reply) => {
   try {
+
+    if(Object.entries(req.body.user).length === 0){
+      const user = await User.findOne({where: {
+        id: req.params.id,
+      }})
+
+      return {user: user.dataValues};
+    }
     const updatedUserCount = await User.update(
       req.body.user,
       {
@@ -28,7 +36,7 @@ exports.updateUser = async (req, reply) => {
       },
     );
 
-    if(updatedUserCount === 0){
+    if(updatedUserCount[0] === 0){
       return reply
                 .code(404)
                 .send();
@@ -70,20 +78,28 @@ exports.login = async (req, reply) => {
 
       const userData = {
         userID: user[0].dataValues.id,
-        roles: user[0].dataValues.Roles.map(y => y.roleName),
-        privileges: user[0].dataValues.Roles.map(y => y.Privileges.map(z => z.dataValues.id))[0]};
+        roles: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.roleName),
+        privileges: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.Privileges.filter(y=>y.active === 'Y').map(z => z.dataValues.id))[0]};
 
-      const token = await jwt.signAsync(
+      const accessToken = await jwt.signAsync(
             {
               ...userData,
             },
             config.jwtSecret,
             {
-              expiresIn: `${config.jwtDurationHours}m`,
+              expiresIn: `${config.jwtDurationMinutes}m`,
             },
         );
 
-      return {token};
+      const refreshToken = await jwt.signAsync(
+            {...userData,},
+            config.jwtRefreshTokenSecret,
+            {
+              expiresIn: `${config.jwtRefreshDurationHours}m`
+            }
+      );
+
+      return {accessToken, refreshToken};
     } 
 
     return reply
@@ -125,4 +141,35 @@ exports.verifyToken = async (req, reply) => {
   } catch (err) {
     return {valid: false};
   }
+};
+
+exports.refreshAccessToken = async (req, reply) => {
+    try {
+      const decodedRefreshToken = await jwt.verifyAsync(req.body.refreshToken, config.jwtRefreshTokenSecret);
+      delete decodedRefreshToken.iat;
+      delete decodedRefreshToken.exp;
+
+      const accessToken = await jwt.signAsync(
+        {
+          ...decodedRefreshToken,
+        },
+        config.jwtSecret,
+        {
+          expiresIn: `${config.jwtDurationMinutes}m`,
+        },
+      );
+
+      const refreshToken = await jwt.signAsync(
+          {...decodedRefreshToken,},
+          config.jwtRefreshTokenSecret,
+          {
+            expiresIn: `${config.jwtRefreshDurationHours}m`
+          }
+      );
+      return {accessToken, refreshToken}
+    } catch (err) {
+      return  reply
+                .code(401)
+                .send({msg: 'Refresh token is invalid'});
+    }
 };

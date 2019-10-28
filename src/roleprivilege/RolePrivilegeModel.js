@@ -5,6 +5,11 @@ const rolePrivilegeSeedData = require('./rolePrivilegeSeedData');
 const activeEnum = require('../constants/activeEnum');
 
 const RolePrivilege = SequelizeInstance.define('RolePrivilege', {
+  id: {
+    type: Sequelize.DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   active: {
     type: Sequelize.DataTypes.ENUM,
     values: activeEnum,

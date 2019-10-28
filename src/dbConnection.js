@@ -10,7 +10,8 @@ const sequelize = new Sequelize(config.db.databaseName, config.db.username, conf
 		min: config.db.minConnectionSockets,
 		acquire: config.db.connectionAcquisitionRate,
 		idle: config.db.connectionIdleRate,
-	}
+	},
+	logging: config.db.shouldLog,
 });
 
 module.exports = sequelize;

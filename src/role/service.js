@@ -14,6 +14,14 @@ exports.createRole = async (req, reply) => {
 
 exports.updateRole = async(req, reply) => {
   try {
+    if(Object.entries(req.body.role).length === 0){
+      const role = await Role.findOne({where: {
+        id: req.params.id,
+      }})
+
+      return {role: role.dataValues};
+    }
+
     const updatedRoleCount  = await Role.update(
       req.body.role,
       {
@@ -23,7 +31,7 @@ exports.updateRole = async(req, reply) => {
       },
     );
 
-    if(updatedRoleCount === 0){
+    if(updatedRoleCount[0] === 0){
       return reply
                 .code(404)
                 .send();
