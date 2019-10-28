@@ -73,5 +73,22 @@ describe('Role API', async function (){
     });
   });
 
+  describe('DELETE /api/role/:id', async () => {
+    it('it succesfully deletes roles', async() => {
+      const role = roleHelpers.createFakeRole();
+      const roleRequest = await roleHelpers.createRole(fastify, role, token);
+      const parsedRoleRequest = JSON.parse(roleRequest.body).role;
+      await roleHelpers.deleteRole(fastify, parsedRoleRequest.id, token);
+      const roleList = await roleHelpers.getList(fastify, token);
+      const roles = JSON.parse(roleList.body).roles;
+      const filteredRoles = roles.filter(x => x.roleName === role.roleName);
+      assert.strictEqual(filteredRoles.length, 0, 'Role was not succesfully deleted');
+    });
+
+    it('returns 404 when the role is not found', async() => {
+      const roleDeleteRequest =  await roleHelpers.deleteRole(fastify, 123112312, token);
+      assert.strictEqual(roleDeleteRequest.statusCode, 404, '404 was not returned');
+    });
+  });
 
 });

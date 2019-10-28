@@ -67,7 +67,7 @@ exports.deleteRole = async(req, reply) => {
       },
     });
 
-    if(roleDeletedCount[0] === 0){
+    if(roleDeletedCount === 0){
       return reply
                 .code(404)
                 .send({
