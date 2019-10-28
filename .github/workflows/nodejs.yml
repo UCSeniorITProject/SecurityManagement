@@ -7,8 +7,13 @@ on:
 
 jobs:
   build:
-
+  hello_world_job:
     runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+    - name: Hello world action step
+      id: hello
+      uses: actions/ConfigFromSecretAction
 
     strategy:
       matrix:
