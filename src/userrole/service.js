@@ -22,7 +22,7 @@ exports.deleteUserRole = async (req, reply) => {
       },
     );
 
-    if(updatedUserRoleCount[0] === 0){
+    if(updatedUserRoleCount === 0){
       return reply
                 .code(404)
                 .send({
