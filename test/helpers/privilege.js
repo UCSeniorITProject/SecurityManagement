@@ -48,7 +48,7 @@ exports.delete = (fastify, privilegeID, token) => {
 
 exports.createFakePrivilege = () => {
   return {
-    privilegeName: faker.name.jobDescriptor(),
+    privilegeName: faker.name.firstName(),
     active: 'Y',
   };
 };
