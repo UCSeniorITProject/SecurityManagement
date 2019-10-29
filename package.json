@@ -4,7 +4,7 @@
   "description": "a security management API for SafeMeds project",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --exit"
   },
   "repository": {
     "type": "git",
