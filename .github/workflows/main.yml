@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: azure/actions/login@master
+      - uses: azure/login@v1
         with:
           creds: ${{ secrets.azureServicePrincipal}}
       - uses: azure/container-actions/docker-login@master
