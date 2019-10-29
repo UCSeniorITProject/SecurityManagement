@@ -15,6 +15,13 @@ jobs:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
+      env: 
+        dbHost: ${{ secret.dbHost }}
+        dbName:  ${{ secret.dbName }}
+        adminUser: ${{ secret.adminUser }}
+        password:  ${{ secret.password }}
+        jwtSecret:  ${{ secret.jwtSecret }}
+        jwtRefreshTokenSecret:  ${{ secret.jwtRefreshTokenSecret }}   
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
