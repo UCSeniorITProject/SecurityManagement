@@ -29,4 +29,10 @@ jobs:
         adminUser: ${{ secrets.adminUser }}
         password:  ${{ secrets.password }}
         jwtSecret:  ${{ secrets.jwtSecret }}
-        jwtRefreshTokenSecret:  ${{ secrets.jwtRefreshTokenSecret }}   
+        jwtRefreshTokenSecret:  ${{ secrets.jwtRefreshTokenSecret }}  
+    - uses: azure/appservice-actions/webapp@master
+    - name: Deploy to app service
+      with:
+        app-name: SecurityManagement
+        package:  '. '
+        publish-profile: ${{ secrets.azurePublishProfile }} 
