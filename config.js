@@ -19,6 +19,6 @@ module.exports = {
   saltRounds: 8,
   jwtSecret: process.env.jwtSecret || 'qweqweqweqwe',
   jwtRefreshTokenSecret: process.env.jwtRefreshTokenSecret || 'qweqweqweqwe',
-  shouldFastifyLog: true,
+  shouldFastifyLog: false,
   serverHost: '0.0.0.0',
 };
