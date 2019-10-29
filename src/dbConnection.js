@@ -5,7 +5,9 @@ const sequelize = new Sequelize(config.db.databaseName, config.db.username, conf
 	host: config.db.host,
 	dialect: config.db.dialect,
 	dialectOptions: {
-		encrypt: true,
+		options: {
+			encrypt: true,
+		}
 	},
 	port: config.db.port,
 	pool: {
