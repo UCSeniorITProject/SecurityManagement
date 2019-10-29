@@ -14,7 +14,7 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.azureServicePrincipal}}
-      - uses: azure/container-actions/docker-login@master
+      - uses: azure/docker-login@v1
         with:
           username: ${{ secrets.dockerUsername }}
           password: ${{ secrets.dockerPassword }}
