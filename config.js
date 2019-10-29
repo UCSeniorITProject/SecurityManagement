@@ -15,10 +15,10 @@ module.exports = {
     shouldLog: false,
   },
   jwtDurationMinutes: '15',
-  jwtRefreshDurationHours: '15',
+  jwtRefreshDurationHours: '20',
   saltRounds: 8,
-  jwtSecret: 'qweqweqweqweqwe',
-  jwtRefreshTokenSecret: 'qweqweqweqweqweqwe',
+  jwtSecret: process.env.jwtSecret,
+  jwtRefreshTokenSecret: process.env.jwtRefreshTokenSecret,
   shouldFastifyLog: true,
   serverHost: '0.0.0.0',
 };
