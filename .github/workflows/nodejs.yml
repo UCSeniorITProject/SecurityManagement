@@ -1,4 +1,4 @@
-name: Node CI
+name: Test
 
 on: 
   pull_request:
@@ -33,9 +33,3 @@ jobs:
         password:  ${{ secrets.password }}
         jwtSecret:  ${{ secrets.jwtSecret }}
         jwtRefreshTokenSecret:  ${{ secrets.jwtRefreshTokenSecret }}  
-
-    - uses: azure/appservice-actions/webapp@master
-      with:
-       app-name: SecurityManagement
-       publish-profile: ${{ secrets.azurePublishProfile }}
-       package: '.'
