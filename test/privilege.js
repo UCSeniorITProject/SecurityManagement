@@ -25,13 +25,6 @@ describe('Privilege API', async () => {
       assert.ok(matchedPrivilege.length > 0, 'Privileges was not succesfully created');
     });
 
-    it('rejects duplicate privilege names', async () => {
-      const privilege = privilegeHelpers.createFakePrivilege();
-      await privilegeHelpers.create(fastify, privilege, token);
-      const duplicatePrivilegeRequest = await privilegeHelpers.create(fastify, privilege, token);
-      assert.strictEqual(duplicatePrivilegeRequest.statusCode, 500, 'Duplicate privilege name was allowed');
-    });
-
     it('rejects invalid request body', async () => {
       const privilegeCreateRequest = await privilegeHelpers.create(fastify, {}, token);
       assert.strictEqual(privilegeCreateRequest.statusCode, 400, 'Invalid post body allowed through');
