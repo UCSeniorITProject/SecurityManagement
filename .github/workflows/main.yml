@@ -10,7 +10,6 @@ jobs:
   deploy-container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/core@master
       - uses: actions/checkout@master
       - uses: azure/actions/login@master
         with:
