@@ -7,7 +7,6 @@ const config = require('../config');
 
 describe('UserRole API', async function(){
   let token;
-
   beforeEach(async () => {
     await userHelpers.createUser(fastify, fakeUserDetails);
     const authTokenRequest = await userHelpers.login(fastify, {
