@@ -48,7 +48,7 @@ exports.delete = (fastify, privilegeID, token) => {
 
 exports.createFakePrivilege = () => {
   return {
-    privilegeName: faker.name.firstName() + faker.name.lastName(),
+    privilegeName: faker.name.firstName() + faker.name.lastName() + Math.random(),
     active: 'Y',
   };
 };
