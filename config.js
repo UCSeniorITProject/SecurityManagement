@@ -20,5 +20,5 @@ module.exports = {
   jwtSecret: process.env.jwtSecret || 'qweqweqweqwe',
   jwtRefreshTokenSecret: process.env.jwtRefreshTokenSecret || 'qweqweqweqwe',
   shouldFastifyLog: true,
-  serverHost: '0.0.0.0'
+  serverHost: '0.0.0.0',
 };
