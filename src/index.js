@@ -10,8 +10,8 @@ const sqlConnection = require('./dbConnection');
 
 (async () => {
   try {
-		//decorate fastify request with SQL instance -- caches the connection/allows easy access
-		fastify.decorateRequest('sqlConnection', sqlConnection);
+    //decorate fastify request with SQL instance -- caches the connection/allows easy access
+    fastify.decorateRequest('sqlConnection', sqlConnection);
     fastify.register(require('fastify-swagger'), swagger.options);
     fastify.register(require('./user'), {prefix: '/api/user'});
     fastify.register(require('./role'), {prefix: '/api/role'});
