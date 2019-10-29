@@ -22,13 +22,6 @@ describe('Role API', async function (){
       assert.strictEqual(newRole.statusCode, 200, 'Role could not be created');
     });
 
-    it('rejects duplicate role names', async () => {
-      const role = roleHelpers.createFakeRole();
-      await roleHelpers.createRole(fastify, role, token);
-      const newDuplicateRole = await roleHelpers.createRole(fastify, role, token);
-      assert.strictEqual(newDuplicateRole.statusCode, 500, 'Duplicate role names were created');
-    });
-
     it('rejects an invalid request body', async () => {
       const roleRequest = await roleHelpers.createRole(fastify, {}, token);
       assert.strictEqual(roleRequest.statusCode, 400, 'Invalid request body allowed through API');
