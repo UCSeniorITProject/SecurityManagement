@@ -1,17 +1,35 @@
-on: push
+name: Node CI
+
+on: [pull_request]
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
+  build:
 
-    # install dependencies, build, and test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
       run: |
-        npm install
+        npm ci
         npm run build --if-present
-        npm run test --if-present
+        npm test
+      env:
+        CI: true
+        dbHost: ${{ secrets.dbHost }}
+        dbName:  ${{ secrets.dbName }}
+        adminUser: ${{ secrets.adminUser }}
+        password:  ${{ secrets.password }}
+        jwtSecret:  ${{ secrets.jwtSecret }}
+        jwtRefreshTokenSecret:  ${{ secrets.jwtRefreshTokenSecret }}  
 
     - uses: azure/appservice-actions/webapp@master
       with:
