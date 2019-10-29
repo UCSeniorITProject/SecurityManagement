@@ -1,0 +1,29 @@
+name: Build and Deploy Container
+
+on: 
+  push:
+    branches: 
+      - master
+
+
+jobs:
+  deploy-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: azure/actions/login@master
+        with:
+          creds: ${{ secrets.azureServicePrincipal}}
+      - uses: azure/container-actions/docker-login@master
+        with:
+          username: ${{ secrets.dockerUsername }}
+          password: ${{ secrets.dockerPassword }}
+          
+      - run: |
+         docker build . -t slashroot101/securitymanagement:${{ github.sha }}
+         docker push slashroot101/securitymanagement:${{ github.sha }}
+         
+      - uses: azure/appservice-actions/webapp-container@master
+        with:
+         app-name: SecurityManagement
+         publish-profile: ${{ secrets.azurePublishProfile }}
