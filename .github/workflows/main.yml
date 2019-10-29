@@ -26,4 +26,4 @@ jobs:
       - uses: azure/webapps-container-deploy@v1
         with:
          app-name: SecurityManagement
-         publish-profile: ${{ secrets.azurePublishProfile }}
+         images: 'slashroot101/securitymanagement:${{ github.sha }}'
