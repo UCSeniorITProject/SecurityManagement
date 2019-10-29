@@ -26,7 +26,7 @@ const sqlConnection = require('./dbConnection');
             })
         );
     createRelationships();
-    await fastify.listen(3000, config.serverHost);
+    await fastify.listen(config.port, config.serverHost);
     fastify.swagger();
     fastify.log.info(`Server is listening on ${fastify.server.address().port}`);
   } catch (err) {
