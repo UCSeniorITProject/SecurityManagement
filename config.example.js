@@ -18,4 +18,5 @@ module.exports = {
   saltRounds: 8,
   jwtSecret: 'qweqweqweqweqwe',
   shouldFastifyLog: false,
+  serverHost: '0.0.0.0',
 };

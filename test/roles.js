@@ -90,5 +90,4 @@ describe('Role API', async function (){
       assert.strictEqual(roleDeleteRequest.statusCode, 404, '404 was not returned');
     });
   });
-
 });
