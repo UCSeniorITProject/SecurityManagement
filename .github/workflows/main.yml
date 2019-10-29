@@ -23,7 +23,7 @@ jobs:
          docker build . -t slashroot101/securitymanagement:${{ github.sha }}
          docker push slashroot101/securitymanagement:${{ github.sha }}
          
-      - uses: azure/appservice-actions/webapp-container@master
+      - uses: azure/webapps-container-deploy@v1
         with:
          app-name: SecurityManagement
-         publish-profile: ${{ secrets.azurePublishProfile }}
+         images: 'slashroot101/securitymanagement:${{ github.sha }}'
