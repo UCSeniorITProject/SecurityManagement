@@ -39,5 +39,4 @@ const sqlConnection = require('./dbConnection');
   }
 })();
 
-
 module.exports = fastify;
