@@ -1,6 +1,5 @@
 const bunyan = require('bunyan');
 const fs = require('fs');
-
 // create logs directory if not exists.
 fs.existsSync('logs') || fs.mkdirSync('logs');
 
