@@ -14,7 +14,7 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.azureServicePrincipal}}
-      - uses: azure/docker-login@v1
+      - uses: azure/container-actions/docker-login@master
         with:
           username: ${{ secrets.dockerUsername }}
           password: ${{ secrets.dockerPassword }}
@@ -23,8 +23,7 @@ jobs:
          docker build . -t slashroot101/securitymanagement:${{ github.sha }}
          docker push slashroot101/securitymanagement:${{ github.sha }}
          
-      - uses: azure/appservice-actions/webapp@master
+      - uses: azure/appservice-actions/webapp-container@master
         with:
-         app-name: SecurityManagement
+         app-name: securitymanagement
          images: 'slashroot101/securitymanagement:${{ github.sha }}'
-         publish-profile: ${{ secrets.azurePublishProfile }}
