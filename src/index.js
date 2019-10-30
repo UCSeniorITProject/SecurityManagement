@@ -22,9 +22,13 @@ const sqlConnection = require('./dbConnection');
         .use(
           rjwt({secret: config.jwtSecret})
             .unless({
-              path: ['/api/user/login', '/api/user/token/verify', {url: '/api/user', methods: ['POST']}, '/api/user/token/refresh', '/documentation'],
+              path: [
+                 /\/documentation*/,
+                 '/api/user/login',
+                 '/api/user/token/verify',
+                 {url: '/api/user', methods: ['POST']}, '/api/user/token/refresh'],
             })
-        );
+        ); 
     createRelationships();
     await fastify.listen(config.port, config.serverHost);
     fastify.swagger();
