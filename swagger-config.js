@@ -1,4 +1,4 @@
-
+const config = require('./config');
 exports.options = {
   routePrefix: '/documentation',
   exposeRoute: true,
@@ -12,7 +12,7 @@ exports.options = {
       url: 'https://swagger.io',
       description: 'Find more info here'
     },
-    host: 'localhost:3000',
+    host: config.serverHost,
     schemes: ['http'],
     consumes: ['application/json'],
     produces: ['application/json']
