@@ -11,7 +11,7 @@ module.exports = {
     connectionIdleRate: 10000,
     port: 1433,
     //DO NOT TURN THIS TO TRUE YOU WILL DROP EVERY TABLE
-    forceTableCreation: false,
+    forceTableCreation: true,
     shouldLog: false,
   },
   jwtDurationMinutes: '15',
