@@ -72,7 +72,7 @@ exports.login = async (req, reply) => {
               .send();
     }
 
-    const passwordIsValid = user[0].isValidPassword(req.body.authDetails.password);
+    const passwordIsValid = await user[0].isValidPassword(req.body.authDetails.password);
 
     if(passwordIsValid){
 
