@@ -79,7 +79,12 @@ exports.login = async (req, reply) => {
       const userData = {
         userID: user[0].dataValues.id,
         roles: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.roleName),
-        privileges: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.Privileges.filter(y=>y.active === 'Y').map(z => z.dataValues.id))[0]};
+        privileges: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.Privileges.filter(y=>y.active === 'Y').map(z => z.dataValues.id))[0],
+        username: user[0].dataValues.username,
+        profilePicture: user[0].dataValues.profilePicture,
+        email: user[0].dataValues.email,
+        firstName: user[0].dataValues.firstName,
+        lastName: user[0].dataValues.lastName};
 
       const accessToken = await jwt.signAsync(
             {
@@ -148,6 +153,32 @@ exports.refreshAccessToken = async (req, reply) => {
       const decodedRefreshToken = await jwt.verifyAsync(req.body.refreshToken, config.jwtRefreshTokenSecret);
       delete decodedRefreshToken.iat;
       delete decodedRefreshToken.exp;
+
+      const user = await User.findAll({
+        where: {
+          username: decodedRefreshToken.username,
+        },
+        include: [{
+          model: Role,
+          include: [Privilege],
+        }]
+      });
+
+      if(user.length === 0){
+        return reply
+                .statusCode(401)
+                .send();
+      }
+
+      const userData = {
+        userID: user[0].dataValues.id,
+        roles: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.roleName),
+        privileges: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.Privileges.filter(y=>y.active === 'Y').map(z => z.dataValues.id))[0],
+        username: user[0].dataValues.username,
+        profilePicture: user[0].dataValues.profilePicture,
+        email: user[0].dataValues.email,
+        firstName: user[0].dataValues.firstName,
+        lastName: user[0].dataValues.lastName};
 
       const accessToken = await jwt.signAsync(
         {

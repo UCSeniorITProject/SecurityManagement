@@ -19,6 +19,14 @@ const privilegeAfterSave = {
     type: 'string',
     description: 'The date that the privilege was created on',
   },
+  firstName: {
+    type: 'string',
+    description: 'The user\'s first name',
+  },
+  lastName: {
+    type: 'string',
+    description: 'The user\'s last name',
+  },
   updatedAt: {
     type: 'string',
     description: 'The date that the privilege was updated on, defaults to date created',
@@ -69,6 +77,18 @@ const userBeforeSave = {
   phoneNumber: {
     type: 'string',
     description: 'The phone number of the user',
+  },
+  firstName: {
+    type: 'string',
+    description: 'The user\'s first name',
+  },
+  lastName: {
+    type: 'string',
+    description: 'The user\'s last name',
+  },
+  profilePicture: {
+    type: 'string',
+    description: 'The user\'s profile picture' ,
   },
   active: {
     type: 'string',

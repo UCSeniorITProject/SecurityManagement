@@ -70,6 +70,9 @@ exports.createMockUserObject = () => {
     password: faker.internet.password(),
     email: faker.internet.email(),
     phoneNumber: faker.phone.phoneNumber(),
+    profilePicture: '',
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
     active: 'Y',
   };
 };

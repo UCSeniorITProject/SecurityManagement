@@ -75,6 +75,9 @@ describe('UserRole API', async function(){
         username: parsedUpdatedUser.username,
         email: parsedUpdatedUser.email,
         phoneNumber: parsedUpdatedUser.phoneNumber,
+        firstName: parsedUpdatedUser.firstName,
+        lastName: parsedUpdatedUser.lastName,
+        profilePicture: parsedUpdatedUser.profilePicture,
         active: parsedUpdatedUser.active,
       };
       delete clonedTestUser.password;

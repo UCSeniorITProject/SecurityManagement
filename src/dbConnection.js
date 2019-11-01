@@ -16,7 +16,7 @@ const sequelize = new Sequelize(config.db.databaseName, config.db.username, conf
 		acquire: config.db.connectionAcquisitionRate,
 		idle: config.db.connectionIdleRate,
 	},
-	logging: config.db.shouldLog,
+	logging: config.db.shouldLog ? console.log : false,
 });
 
 module.exports = sequelize;

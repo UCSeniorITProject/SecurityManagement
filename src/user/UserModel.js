@@ -26,6 +26,18 @@ const User = SequelizeInstance.define('User', {
       allowNull: false,
       unique: true,
     },
+    profilePicture: {
+      type: Sequelize.DataTypes.TEXT,
+      allowNull: true,
+    },
+    firstName: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
+    },
     active: {
       type: Sequelize.DataTypes.ENUM,
       values: activeEnum,
@@ -54,7 +66,9 @@ User.prototype.isValidPassword = function(password){
 
 User.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    return User.bulkCreate(userSeedData, {individualHooks: true,});
+    if(userSeedData.length){
+      return User.bulkCreate(userSeedData, {individualHooks: true,});
+    }
   } catch (err) {
     console.log(`An error occured during User data seeding: ${error}`);
   }

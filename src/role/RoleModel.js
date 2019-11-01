@@ -19,7 +19,9 @@ const Role = SequelizeInstance.define('Role', {
 
 Role.sync({force: config.db.forceTableCreation}).then(() => {
   try {
-    return Role.bulkCreate(roleSeedData, {individualHooks: true});
+    if(roleSeedData.length){
+      return Role.bulkCreate(roleSeedData, {individualHooks: true});
+    }
   } catch (err){
     console.log(`Error creating role seed data ${err}`);
   }

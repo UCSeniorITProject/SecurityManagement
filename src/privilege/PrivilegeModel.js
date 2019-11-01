@@ -20,7 +20,9 @@ const Privilege = SequelizeInstance.define('Privilege', {
 
 Privilege.sync({force: config.db.forceTableCreation}).then(() => {
 	try {
-		return Privilege.bulkCreate(privilegeSeedData, {invidualHooks: true,});
+		if(privilegeSeedData.length){
+			return Privilege.bulkCreate(privilegeSeedData, {invidualHooks: true,});
+		}
 	} catch (err){
 		console.log(`Error creating privilege seed data: ${err}`);
 	}
