@@ -6,5 +6,7 @@ module.exports = [
     phoneNumber: '5132731292',
     active: 'Y',
     profilePicture: '',
+    firstName: 'Sam',
+    lastName: 'Curry',
   }
 ];
