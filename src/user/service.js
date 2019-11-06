@@ -151,8 +151,6 @@ exports.verifyToken = async (req, reply) => {
 exports.refreshAccessToken = async (req, reply) => {
     try {
       const decodedRefreshToken = await jwt.verifyAsync(req.body.refreshToken, config.jwtRefreshTokenSecret);
-      delete decodedRefreshToken.iat;
-      delete decodedRefreshToken.exp;
 
       const user = await User.findAll({
         where: {
@@ -178,11 +176,12 @@ exports.refreshAccessToken = async (req, reply) => {
         profilePicture: user[0].dataValues.profilePicture,
         email: user[0].dataValues.email,
         firstName: user[0].dataValues.firstName,
-        lastName: user[0].dataValues.lastName};
+        lastName: user[0].dataValues.lastName
+      };
 
       const accessToken = await jwt.signAsync(
         {
-          ...decodedRefreshToken,
+          ...userData,
         },
         config.jwtSecret,
         {
@@ -191,7 +190,7 @@ exports.refreshAccessToken = async (req, reply) => {
       );
 
       const refreshToken = await jwt.signAsync(
-          {...decodedRefreshToken,},
+          {...userData,},
           config.jwtRefreshTokenSecret,
           {
             expiresIn: `${config.jwtRefreshDurationHours}m`

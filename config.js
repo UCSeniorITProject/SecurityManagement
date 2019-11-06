@@ -11,7 +11,7 @@ module.exports = {
     connectionIdleRate: 10000,
     port: 1433,
     //DO NOT TURN THIS TO TRUE YOU WILL DROP EVERY TABLE
-    forceTableCreation: true,
+    forceTableCreation: false,
     shouldLog: false,
   },
   jwtDurationMinutes: '15',
@@ -19,7 +19,7 @@ module.exports = {
   saltRounds: 8,
   jwtSecret: process.env.jwtSecret || 'qweqweqweqwe',
   jwtRefreshTokenSecret: process.env.jwtRefreshTokenSecret || 'qweqweqweqwe',
-  shouldFastifyLog: true,
+  shouldFastifyLog: false,
   serverHost:  process.env.serverAddress || '0.0.0.0' ,
   port: process.env.port || '3001',
 };
