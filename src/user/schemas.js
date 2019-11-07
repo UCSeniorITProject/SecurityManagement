@@ -327,6 +327,7 @@ exports.refreshAccessToken = {
   tags: ['User'],
   summary: 'Refreshes the given access token with the refresh token',
   body: {
+    type: 'object',
     description: 'The refresh token to validate',
     required: ['refreshToken'],
     properties: {

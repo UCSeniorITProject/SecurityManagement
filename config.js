@@ -18,7 +18,7 @@ module.exports = {
   jwtRefreshDurationHours: '20',
   saltRounds: 8,
   jwtSecret: process.env.jwtSecret || 'qweqweqweqwe',
-  jwtRefreshTokenSecret: process.env.jwtRefreshTokenSecret || 'qweqweqweqwe',
+  jwtRefreshTokenSecret: process.env.jwtRefreshTokenSecret || 'qweqweqqweqweqweweqwe',
   shouldFastifyLog: false,
   serverHost:  process.env.serverAddress || '0.0.0.0' ,
   port: process.env.port || '3001',

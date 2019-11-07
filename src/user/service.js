@@ -103,7 +103,6 @@ exports.login = async (req, reply) => {
               expiresIn: `${config.jwtRefreshDurationHours}m`
             }
       );
-
       return {accessToken, refreshToken};
     } 
 
@@ -151,7 +150,6 @@ exports.verifyToken = async (req, reply) => {
 exports.refreshAccessToken = async (req, reply) => {
     try {
       const decodedRefreshToken = await jwt.verifyAsync(req.body.refreshToken, config.jwtRefreshTokenSecret);
-
       const user = await User.findAll({
         where: {
           username: decodedRefreshToken.username,
