@@ -114,7 +114,47 @@ const userAfterSave = {
 };
 
 const userAfterSaveWithRolesAndPrivs = {
-  ...userAfterSave,
+  createdAt: {
+    type: 'string',
+    description: 'The date the record was created',
+  },
+  updatedAt: {
+    type: 'string',
+    description: 'The date the record was updated',
+  },
+  id: {
+    type: 'number',
+    description: 'The identity of the user',
+  },
+  username: {
+    type: 'string',
+    description: 'The username of the user',
+  },
+  email: {
+    type: 'string',
+    description: 'The email of the user',
+  },
+  phoneNumber: {
+    type: 'string',
+    description: 'The phone number of the user',
+  },
+  firstName: {
+    type: 'string',
+    description: 'The user\'s first name',
+  },
+  lastName: {
+    type: 'string',
+    description: 'The user\'s last name',
+  },
+  profilePicture: {
+    type: 'string',
+    description: 'The user\'s profile picture' ,
+  },
+  active: {
+    type: 'string',
+    enum: activeEnum,
+    description: 'Whether or not the row is active',
+  },
   roles: {
     type: 'array',
     description: 'Roles that the user has',
