@@ -27,7 +27,7 @@ const sqlConnection = require('./dbConnection');
                  /\/documentation*/,
                  '/api/user/login',
                  '/api/user/token/verify',
-                 {url: '/api/user', methods: ['POST']}, '/api/user/token/refresh'],
+                 {url: '/api/user', methods: ['POST', 'GET']}, '/api/user/token/refresh'],
             })
         ); 
     await fastify.listen(config.port, config.serverHost);

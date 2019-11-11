@@ -7,8 +7,9 @@ const config = require('../config');
 
 describe('UserRole API', async function(){
   let token;
+  let createdUser;
   beforeEach(async () => {
-    await userHelpers.createUser(fastify, fakeUserDetails);
+    createdUser = await userHelpers.createUser(fastify, fakeUserDetails);
     const authTokenRequest = await userHelpers.login(fastify, {
         username: fakeUserDetails.username,
         password: fakeUserDetails.password,
@@ -18,17 +19,18 @@ describe('UserRole API', async function(){
 
   describe('API token validation', async () => {
     it('stops request on no auth token provided', async () => {
-      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, '');
+      const apiUserID = JSON.parse(createdUser.body).user.id
+      const testRequest = await userHelpers.updateUser(fastify, apiUserID, {firstName: 'test'});
       assert.strictEqual(testRequest.statusCode, 401, 'API let unauthenticated request through');
     });
 
     it('stops a request when an invalid auth token is provided', async () => {
-      const testRequest = await userHelpers.getUserWithFilter(fastify, {},  'qweqweqweqqwe');
+      const testRequest = await userHelpers.updateUser(fastify, 0, {firstName: 'test'}, 'qweqwe');
       assert.strictEqual(testRequest.statusCode, 401, 'API let invalid token access through');
     });
 
     it('allows a request through when a token is provided', async () => {
-      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, token);
+      const testRequest = await userHelpers.updateUser(fastify, 0, {firstName: 'test'}, token);
       assert.ok(testRequest.statusCode !== 401 && testRequest.statusCode !== 403, 'Valid acess token was not allowed');
     });
   });
@@ -165,15 +167,23 @@ describe('UserRole API', async function(){
   });
 
   describe('POST /api/user/token/verify', async () => {
+    let testUser;
+    let apiUser;
+    before(async () => {
+      testUser = userHelpers.createMockUserObject();
+      apiUser = await userHelpers.createUser(fastify, testUser);
+    });
+
     it('verifies valid token', async () => {
       const tokenValidationRequest = await userHelpers.verifyToken(fastify, token);
       const isTokenValid = JSON.parse(tokenValidationRequest.body).valid;
       assert.equal(isTokenValid, true, 'Valid token was rejected');
     });
 
-    it('does not allowed expired token', async () => {
-      const jwtToken = await signAsync({}, config.jwtSecret, {'expiresIn': '-10s'});
-      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, jwtToken);
+    it('does not allow expired token', async () => {
+      const apiUserID = JSON.parse(apiUser.body).user.id;
+      const jwtToken = await signAsync({}, config.jwtSecret, {'expiresIn': '-40s'});
+      const testRequest = await userHelpers.updateUser(fastify, apiUserID, {firstName: 'qweqwe'}, jwtToken);
       assert.ok(testRequest.statusCode === 401 || testRequest.statusCode === 403, 'Expired token was allowed through the API');
     });
 
@@ -204,13 +214,15 @@ describe('UserRole API', async function(){
     });
 
     it('rejects expired refresh token', async () => {
-      const refreshToken = await signAsync({}, config.jwtRefreshTokenSecret, {'expiresIn': '-10s'});
-      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, refreshToken);
+      const apiUserID = JSON.parse(apiUser.body).user.id;
+      const refreshToken = await signAsync({}, config.jwtRefreshTokenSecret, {'expiresIn': '-40s'});
+      const testRequest = await userHelpers.updateUser(fastify, apiUserID, {}, refreshToken);
       assert.strictEqual(testRequest.statusCode, 401, 'Expired refresh token allowed');
     });
 
     it('rejects invalid refresh token', async () => {
-      const testRequest = await userHelpers.getUserWithFilter(fastify, {}, 'qweqwwq');
+      const apiUserID = JSON.parse(apiUser.body).user.id;
+      const testRequest = await userHelpers.updateUser(fastify, apiUserID, {}, 'qweqweqwe');
       assert.strictEqual(testRequest.statusCode, 401, 'Expired refresh token allowed');
     });
   });
