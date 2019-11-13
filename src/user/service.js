@@ -80,12 +80,7 @@ exports.login = async (req, reply) => {
         userID: user[0].dataValues.id,
         roles: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.roleName),
         privileges: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.Privileges.filter(y=>y.active === 'Y').map(z => z.dataValues.id))[0],
-        username: user[0].dataValues.username,
-        profilePicture: user[0].dataValues.profilePicture,
-        email: user[0].dataValues.email,
-        firstName: user[0].dataValues.firstName,
-        lastName: user[0].dataValues.lastName};
-
+        username: user[0].dataValues.username,};
       const accessToken = await jwt.signAsync(
             {
               ...userData,
@@ -171,10 +166,6 @@ exports.refreshAccessToken = async (req, reply) => {
         roles: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.roleName),
         privileges: user[0].dataValues.Roles.filter(y=>y.active === 'Y').map(y => y.Privileges.filter(y=>y.active === 'Y').map(z => z.dataValues.id))[0],
         username: user[0].dataValues.username,
-        profilePicture: user[0].dataValues.profilePicture,
-        email: user[0].dataValues.email,
-        firstName: user[0].dataValues.firstName,
-        lastName: user[0].dataValues.lastName
       };
 
       const accessToken = await jwt.signAsync(
