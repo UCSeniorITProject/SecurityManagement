@@ -18,7 +18,6 @@ exports.createUser = async (req, reply) => {
 
 exports.updateUser = async (req, reply) => {
   try {
-
     if(Object.entries(req.body.user).length === 0){
       const user = await User.findOne({where: {
         id: req.params.id,
@@ -36,7 +35,7 @@ exports.updateUser = async (req, reply) => {
       },
     );
 
-    if(updatedUserCount[0] === 0){
+    if(updatedUserCount[1].length === 0){
       return reply
                 .code(404)
                 .send();
