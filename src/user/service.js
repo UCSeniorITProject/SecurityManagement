@@ -25,6 +25,7 @@ exports.updateUser = async (req, reply) => {
 
       return {user: user.dataValues};
     }
+
     const updatedUserCount = await User.update(
       req.body.user,
       {

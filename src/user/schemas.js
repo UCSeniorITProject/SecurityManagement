@@ -214,7 +214,7 @@ exports.updateUser = {
     required: ['id'],
     properties: {
       id: {
-        type: 'string',
+        type: 'number',
         description: 'The ID of the user to update',
       }
     },

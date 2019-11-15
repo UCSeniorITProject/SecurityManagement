@@ -12,7 +12,7 @@ module.exports = {
     port: 1433,
     //DO NOT TURN THIS TO TRUE YOU WILL DROP EVERY TABLE
     forceTableCreation: false,
-    shouldLog: false,
+    shouldLog: true,
   },
   jwtDurationMinutes: '15',
   jwtRefreshDurationHours: '20',

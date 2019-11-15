@@ -50,7 +50,7 @@ const User = SequelizeInstance.define('User', {
         user.password = await hashAsync(config.saltRounds, user.password);
         return user;
       },
-      beforeUpdate: async (user) => {
+      beforeValidate: async (user) => {
         if(user.changed('password')){
           user.password = await hashAsync(config.saltRounds, user.password);
         }
