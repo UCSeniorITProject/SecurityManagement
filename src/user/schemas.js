@@ -303,6 +303,43 @@ exports.login = {
   },
 };
 
+exports.bulkGetUserById = {
+  description: 'Gets all of the users with the id provided',
+  tags: ['User'],
+  summary: 'Retrieves all of the users with the given user ids',
+  query: {
+    type: 'object',
+    description: 'The user ids to filter with',
+    properties: {
+      id: {
+        type: 'array',
+        description: 'The id of the users to filter',
+        items: {
+          type: 'number',
+        }
+      }
+    }
+  },
+  exposeRoute: true,
+  response: {
+    200: {
+      description: 'Succesfully retrieved the users',
+      type: 'object',
+      properties: {
+        users: {
+          type:  'array',
+          items: {
+            type: 'object',
+            properties: userAfterSave,
+          },
+          description: 'The users that were retrieved'
+        }
+      }
+    },
+    ...genericForbiddenError,
+  }
+}
+
 exports.getWithFilter = {
   description: 'Gets all users matching the provided filter',
   tags: ['User'],

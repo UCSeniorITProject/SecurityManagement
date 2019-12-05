@@ -73,7 +73,6 @@ exports.login = async (req, reply) => {
     }
 
     const passwordIsValid = await user[0].isValidPassword(req.body.authDetails.password);
-
     if(passwordIsValid){
 
       const userData = {
@@ -108,6 +107,17 @@ exports.login = async (req, reply) => {
     throw boomify(err);
   }
 };
+
+exports.bulkGetUsersById = async (req, reply) => {
+  try {
+    const users =  await User.findAll({
+      where: req.query,
+    });
+    return {users: users.map(x=> x.dataValues)};
+  } catch (err) {
+    throw boomify(err);
+  }
+}
 
 exports.getWithFilter = async (req, reply) => {
   try {

@@ -1,17 +1,16 @@
 const createRelationships = require('./relationships');  
 const config = require('../config');
+const qs = require('qs');
 const fastify = require('fastify')({
   logger: config.shouldFastifyLog,
   pluginTimeout: 60000,
+  querystringParser: str => qs.parse(str),
 });
 const rjwt = require('restify-jwt-community');
 const swagger = require('../swagger-config');
-const sqlConnection = require('./dbConnection');
 
 (async () => {
   try {
-    //decorate fastify request with SQL instance -- caches the connection/allows easy access
-    // fastify.decorateRequest('sqlConnection', sqlConnection);
     fastify.register(require('fastify-swagger'), swagger.options);
     createRelationships();
     fastify.register(require('./user'), {prefix: '/api/user'});

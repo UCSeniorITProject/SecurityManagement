@@ -8,5 +8,6 @@ module.exports = (fastify, options, next) => {
   fastify.get('/', {schema: userSchemas.getWithFilter}, userService.getWithFilter);
   fastify.post('/token/verify', {schema: userSchemas.verifyToken}, userService.verifyToken);
   fastify.post('/token/refresh', {schema: userSchemas.refreshAccessToken}, userService.refreshAccessToken);
+  fastify.get('/bulk', {schema: userSchemas.bulkGetUserById}, userService.bulkGetUsersById);
   next();
 };
