@@ -113,6 +113,7 @@ exports.bulkGetUsersById = async (req, reply) => {
     const users =  await User.findAll({
       where: req.query,
     });
+
     return {users: users.map(x=> x.dataValues)};
   } catch (err) {
     throw boomify(err);
