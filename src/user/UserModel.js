@@ -10,7 +10,6 @@ const User = SequelizeInstance.define('User', {
     username: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     password: {
       type: Sequelize.DataTypes.STRING,
@@ -19,12 +18,10 @@ const User = SequelizeInstance.define('User', {
     email: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     phoneNumber: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     profilePicture: {
       type: Sequelize.DataTypes.TEXT,
@@ -46,10 +43,6 @@ const User = SequelizeInstance.define('User', {
   },
   {
     hooks: {
-      beforeCreate: async (user) => {
-        user.password = await hashAsync(config.saltRounds, user.password);
-        return user;
-      },
       beforeValidate: async (user) => {
         if(user.changed('password')){
           user.password = await hashAsync(config.saltRounds, user.password);
