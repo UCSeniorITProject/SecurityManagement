@@ -29,6 +29,33 @@ const roleAfterSave = {
   },
 };
 
+exports.getRolesWithFilter = {
+	description: 'Gets a list of roles with the filter',
+	tags: ['Role'],
+	summary: 'Gets a list of all roles with the filter',
+	exposeRoute: true,
+	query: {
+		type: 'object',
+    description: 'The filter to retrieve roles with',
+    properties: roleAfterSave,
+	},
+	response: {
+		200: {
+			description: 'Succesfully got the roles with the filter',
+			type: 'object',
+			properties: {
+				roles: {
+					type:'array',
+					items: {
+						type: 'object',
+						properties: roleAfterSave,
+					},
+				},
+			},
+		},
+	},
+},
+
 exports.createRole = {
   description: 'Create a new role',
   tags: ['Role'],

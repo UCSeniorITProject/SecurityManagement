@@ -82,3 +82,16 @@ exports.deleteRole = async(req, reply) => {
     throw boomify(err);
   }
 };
+
+exports.getRoleWithFilter = async (req, reply) => {
+	try {
+		const roles = await Role.findAll(
+			{
+				where: req.query,
+			},
+		);
+		return {roles: roles.map(x=>x.dataValues)};
+	} catch (err) {
+		throw boomify(err);
+	}
+};

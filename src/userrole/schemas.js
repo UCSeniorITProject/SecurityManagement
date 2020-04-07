@@ -99,3 +99,29 @@ exports.deleteUserRole = {
     ...genericForbiddenError,
   },
 };
+
+exports.getUserRoleWithFilter = {
+	description: 'Gets the given user role with the filter',
+  tags: ['UserRole'],
+	summary: 'Gets the given user role with the filter',
+	query: {
+		type: 'object',
+		properties: userRoleAfterSave,
+	},
+	exposeRoute: true,
+	response: {
+		200: {
+      type: 'object',
+      description: 'Succesfully got a list of all user roles with the filter',
+      properties: {
+        userRoles: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: userRoleAfterSave,
+          },
+        },
+      },
+		},
+	},
+};
