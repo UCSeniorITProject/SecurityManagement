@@ -4,7 +4,7 @@ const jwt = require('../constants/helpers/jwt');
 const config = require('../../config');
 const Role = require('../role/RoleModel');
 const Privilege = require('../privilege/PrivilegeModel');
-
+const sequelize = require('../dbConnection');
 exports.createUser = async (req, reply) => {
   try {
     const user = User.build(req.body.user);
@@ -110,11 +110,11 @@ exports.login = async (req, reply) => {
 
 exports.bulkGetUsersById = async (req, reply) => {
   try {
-    const users =  await User.findAll({
-      id: {
-        $in: req.query.id,
-      }
-    });
+    const users = await User.findAll({
+			where: {
+				id: req.query.id,
+			},
+		});
     return {users: users.map(x=> x.dataValues)};
   } catch (err) {
     throw boomify(err);
