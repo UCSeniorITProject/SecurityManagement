@@ -1,10 +1,9 @@
 name: Build and Deploy Container
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - master
-
 
 jobs:
   deploy-container:
@@ -18,12 +17,12 @@ jobs:
         with:
           username: ${{ secrets.dockerUsername }}
           password: ${{ secrets.dockerPassword }}
-          
+
       - run: |
-         docker build . -t slashroot101/securitymanagement:${{ github.sha }}
-         docker push slashroot101/securitymanagement:${{ github.sha }}
-         
+          docker build . -t slashroot101/securitymanagement:${{ github.sha }}
+          docker push slashroot101/securitymanagement:${{ github.sha }}
+
       - uses: azure/appservice-actions/webapp-container@master
         with:
-         app-name: securitymanagement
-         images: 'slashroot101/securitymanagement:${{ github.sha }}'
+          app-name: securitymanagement
+          images: "slashroot101/securitymanagement:${{ github.sha }}"

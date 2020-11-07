@@ -1,6 +1,6 @@
 module.exports = [
   {
-    privilegeName: 'Test',
-    active: 'Y',
-  }
+    privilegeName: "Test",
+    active: "Y",
+  },
 ];

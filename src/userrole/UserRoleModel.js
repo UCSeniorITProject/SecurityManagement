@@ -1,10 +1,10 @@
-const SequelizeInstance = require('../dbConnection');
-const Sequelize = require('sequelize');
-const activeEnum = require('../constants/activeEnum');
-const userRoleSeedData = require('./userRoleSeedData');
-const config = require('../../config');
+const SequelizeInstance = require("../dbConnection");
+const Sequelize = require("sequelize");
+const activeEnum = require("../constants/activeEnum");
+const userRoleSeedData = require("./userRoleSeedData");
+const config = require("../../config");
 
-const UserRole = SequelizeInstance.define('UserRole', {
+const UserRole = SequelizeInstance.define("UserRole", {
   id: {
     type: Sequelize.DataTypes.INTEGER,
     primaryKey: true,
@@ -19,24 +19,24 @@ const UserRole = SequelizeInstance.define('UserRole', {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Users',
-      key: 'id'
-    }
+      model: "Users",
+      key: "id",
+    },
   },
   roleID: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Roles',
-      key: 'id'
+      model: "Roles",
+      key: "id",
     },
   },
-},);
+});
 
-UserRole.sync({force: config.db.forceTableCreation}).then(() => {
+UserRole.sync({ force: config.db.forceTableCreation }).then(() => {
   try {
-    if(userRoleSeedData.length){
-      return UserRole.bulkCreate(userRoleSeedData, {individual: true,});
+    if (userRoleSeedData.length) {
+      return UserRole.bulkCreate(userRoleSeedData, { individual: true });
     }
   } catch (err) {
     console.log(`An error occured while syncing UserRole: ${err}`);

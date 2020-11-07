@@ -1,33 +1,27 @@
-const {boomify} = require('boom');
-const Privilege = require('./PrivilegeModel');
-
+const { boomify } = require("boom");
+const Privilege = require("./PrivilegeModel");
 
 exports.createPrivilege = async (req, resp) => {
   try {
     const privilege = Privilege.build(req.body.privilege);
-    
+
     const savedPrivilege = await privilege.save();
-    return {privilege: savedPrivilege.dataValues};
-  } catch(err) {
+    return { privilege: savedPrivilege.dataValues };
+  } catch (err) {
     throw boomify(err);
   }
 };
 
 exports.updatePrivilege = async (req, resp) => {
   try {
-    const updatedPrivilegeCount = await Privilege.update(
-      req.body.privilege,
-        { 
-          where: {
-            id: req.params.id,
-          },
-        },
-      );
+    const updatedPrivilegeCount = await Privilege.update(req.body.privilege, {
+      where: {
+        id: req.params.id,
+      },
+    });
 
-    if(updatedPrivilegeCount[0] === 0){
-      return resp
-                .code(404)
-                .send();
+    if (updatedPrivilegeCount[0] === 0) {
+      return resp.code(404).send();
     }
 
     const updatedPrivilege = await Privilege.findOne({
@@ -36,23 +30,23 @@ exports.updatePrivilege = async (req, resp) => {
       },
     });
 
-    return {privilege: updatedPrivilege.dataValues};
+    return { privilege: updatedPrivilege.dataValues };
   } catch (err) {
     throw boomify(err);
   }
 };
 
 exports.getList = async (req, resp) => {
-  try { 
+  try {
     const privileges = await Privilege.findAll();
 
-    return {privileges: privileges.map(e => e.dataValues)};
+    return { privileges: privileges.map((e) => e.dataValues) };
   } catch (err) {
     throw boomify(err);
   }
 };
 
-exports.deletePrivilege = async(req, resp) => {
+exports.deletePrivilege = async (req, resp) => {
   try {
     const privilegeDeletedCount = await Privilege.destroy({
       where: {
@@ -60,17 +54,13 @@ exports.deletePrivilege = async(req, resp) => {
       },
     });
 
-    if(privilegeDeletedCount === 0){
-      return resp
-                .code(404)
-                .send({
-                  msg: 'Privilege could not be found',
-                });
+    if (privilegeDeletedCount === 0) {
+      return resp.code(404).send({
+        msg: "Privilege could not be found",
+      });
     }
 
-    return resp
-            .code(204)
-            .send();
+    return resp.code(204).send();
   } catch (err) {
     throw boomify(err);
   }

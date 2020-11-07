@@ -1,1 +1,1 @@
-module.exports = ['Y','N'];
+module.exports = ["Y", "N"];
